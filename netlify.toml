@@ -1,0 +1,16 @@
+[build]
+  command = "python3 scripts/build_site.py"
+  publish = ".site-build"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/downloads/*.zip"
+  [headers.values]
+    Content-Type = "application/zip"
+    Content-Disposition = "attachment"

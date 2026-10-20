@@ -1,0 +1,7 @@
+.git
+.cache
+build
+.site-build
+site
+downloads
+.netlify

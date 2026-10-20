@@ -1,0 +1,8 @@
+.netlify/
+.cache/
+build/
+node_modules/
+.DS_Store
+__pycache__/
+*.pyc
+.site-build/

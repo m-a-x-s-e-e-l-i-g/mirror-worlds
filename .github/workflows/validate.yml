@@ -1,0 +1,17 @@
+name: Verify release and website
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python scripts/verify_release.py
+      - run: node --test scripts/site.test.mjs
+      - run: node --check site/app.js
+      - run: python scripts/build_site.py

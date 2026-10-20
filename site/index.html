@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eee9dd">
+  <title>Mirror Worlds — mirror photography on the Canon EOS M</title>
+  <meta name="description" content="See reflections live. Shoot mirrored Canon RAW photos. Mirror Worlds is a free Magic Lantern module developed and tested on the original Canon EOS M.">
+  <meta property="og:title" content="Mirror Worlds — meet your other side.">
+  <meta property="og:description" content="A little creative experiment for your original Canon EOS M. Live mirror effects, straight into your RAW photos. By MAXmade.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://raw.githubusercontent.com/m-a-x-s-e-e-l-i-g/mirror-worlds/main/site/assets/social-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="masthead wrap">
+    <a class="wordmark" href="#" aria-label="Mirror Worlds home"><img src="assets/mark.svg" width="38" height="38" alt=""><span>MIRROR<br>WORLDS</span></a>
+    <nav aria-label="Main navigation"><a href="#try">Try a mirror</a><a href="#shoot">Start shooting</a><a href="https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds">GitHub <span aria-hidden="true">↗</span></a></nav>
+    <span class="byline">A camera experiment<br>by <strong>MAXmade</strong></span>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="release-dot" aria-hidden="true"></span> FIRST PUBLIC RELEASE · 0.2.0</p>
+        <h1 id="hero-title">Meet your<br><em>other</em> side.</h1>
+        <p class="lead">A new way to see through your original Canon EOS M. Fold the scene, find a reflection, and make something a little unexpected.</p>
+        <a class="button primary" href="downloads/MIRROR-0.2.0-EOSM202.zip" download>Download Mirror Worlds <span aria-hidden="true">↓</span></a>
+        <p class="download-note">Free &amp; open source. Magic Lantern required.</p>
+      </div>
+      <figure class="hero-photo">
+        <div class="photo-frame"><img class="scene-fallback" src="assets/seaside-scene.webp" width="1536" height="1024" alt="AI-generated seaside architecture used for an illustrative mirror demonstration" fetchpriority="high"><canvas class="rendered-photo" data-preset="2,2,2" width="1080" height="720" role="img" aria-label="Illustrative preview: the left half reflected into the right half" hidden></canvas><span class="photo-stamp">A DIFFERENT<br>POINT OF VIEW.</span></div>
+        <figcaption><span>01 / RIGHT · HALF</span><span>Illustrative preview <a href="#visual-note" aria-label="About these illustrative previews">ⓘ</a></span></figcaption>
+      </figure>
+    </section>
+
+    <section class="compatibility wrap" aria-label="Camera compatibility">
+      <p><strong>Developed &amp; tested on<br>the original Canon EOS M.</strong></p>
+      <p>Canon firmware <strong>2.0.2</strong><br>Magic Lantern dev <strong>2025-06-20</strong></p>
+      <a href="#setup">Check your camera setup <span aria-hidden="true">↗</span></a>
+    </section>
+
+    <section class="intro wrap" aria-labelledby="intro-title">
+      <p class="eyebrow section-number">01 / THE IDEA</p>
+      <div><h2 id="intro-title">Less ordinary.<br>More <em>in-camera.</em></h2></div>
+      <div class="intro-text"><p>Make impossible architecture. Invent a second horizon. Turn a familiar corner into something you haven’t seen before.</p><p>Mirror Worlds shows your reflections in LiveView. Press the <strong>normal shutter button</strong> and the effect is already in your <strong>Canon CR2 RAW photo</strong>. Review it on the camera and keep shooting.</p><p class="small-note">Your focus and Auto ISO still work. Your last settings come back when you restart.</p></div>
+    </section>
+
+    <section class="playground" id="try" aria-labelledby="try-title">
+      <div class="wrap">
+        <div class="section-top"><div><p class="eyebrow">02 / FIND YOUR FOLD</p><h2 id="try-title">What if you<br>mirrored <em>here?</em></h2></div><p>Pick an edge. Change the size.<br>See where the scene takes you.</p></div>
+        <div class="demo-layout">
+          <figure class="demo-photo"><div class="photo-frame"><img id="demo-fallback" src="assets/seaside-scene.webp" width="1536" height="1024" alt="Illustrative seaside scene before mirroring" loading="lazy"><canvas id="demo" width="1080" height="720" role="img" aria-label="Illustrative mirror preview" hidden></canvas></div><figcaption><span id="demo-caption" aria-live="polite">All edges · Quarter / Quarter</span><button id="compare" type="button" aria-pressed="false" disabled>Show original <span aria-hidden="true">↔</span></button></figcaption></figure>
+          <div class="controls">
+            <fieldset><legend>Mirror on</legend><div class="edge-options" id="edge-options">
+              <button type="button" data-mask="1" aria-pressed="false"><span class="edge-icon" data-diagram="1" aria-hidden="true"></span>Left</button>
+              <button type="button" data-mask="2" aria-pressed="false"><span class="edge-icon" data-diagram="2" aria-hidden="true"></span>Right</button>
+              <button type="button" data-mask="4" aria-pressed="false"><span class="edge-icon" data-diagram="4" aria-hidden="true"></span>Top</button>
+              <button type="button" data-mask="8" aria-pressed="false"><span class="edge-icon" data-diagram="8" aria-hidden="true"></span>Bottom</button>
+              <button type="button" data-mask="3" aria-pressed="false"><span class="edge-icon" data-diagram="3" aria-hidden="true"></span>Left + Right</button>
+              <button type="button" data-mask="12" aria-pressed="false"><span class="edge-icon" data-diagram="12" aria-hidden="true"></span>Top + Bottom</button>
+              <button class="all-edges" type="button" data-mask="15" aria-pressed="true"><span class="edge-icon" data-diagram="15" aria-hidden="true"></span>All edges</button>
+            </div></fieldset>
+            <div class="size-controls"><label for="width">Width<select id="width"><option value="2">Half</option><option value="3">Third</option><option value="4" selected>Quarter</option><option value="5">Fifth</option><option value="6">Sixth</option></select></label><label for="height">Height<select id="height"><option value="2">Half</option><option value="3">Third</option><option value="4" selected>Quarter</option><option value="5">Fifth</option><option value="6">Sixth</option></select></label></div>
+            <p class="control-help" id="control-help">Size means each mirrored border. Opposing edges start at Third, leaving an original center.</p>
+            <label class="upload" for="photo-upload">Try your own photo <span aria-hidden="true">↗</span></label><input class="file-input" id="photo-upload" type="file" accept="image/jpeg,image/png,image/webp">
+            <p class="upload-note" id="upload-status" aria-live="polite">JPG, PNG or WebP. Stays in your browser.</p>
+          </div>
+        </div>
+        <p class="demo-disclosure" id="visual-note">These are browser illustrations, not photos captured with the module. The starting scene is AI-generated; the mirrors are calculated by this page. Mirror Worlds itself uses no AI.</p>
+        <noscript><p class="demo-disclosure">Enable JavaScript to try the interactive mirrors. The download and installation instructions work without it.</p></noscript>
+      </div>
+    </section>
+
+    <section class="contact-sheet wrap" aria-labelledby="possibilities-title">
+      <div class="section-top"><div><p class="eyebrow">03 / SMALL CHANGES, STRANGE PLACES</p><h2 id="possibilities-title">One scene.<br>A few other worlds.</h2></div><p>Seven placements. Sizes from half to sixth.<br>There’s plenty of room to play.</p></div>
+      <div class="contact-frames">
+        <figure><div class="photo-frame"><img src="assets/seaside-scene.webp" width="1536" height="1024" loading="lazy" alt="Illustrative seaside scene"><canvas data-preset="3,4,4" width="720" height="480" role="img" aria-label="Illustrative preview: mirrored outer quarters on both sides" hidden></canvas></div><figcaption><span>02 / MIRROR THE SIDES</span><span>Left + Right · Quarter</span></figcaption></figure>
+        <figure><div class="photo-frame"><img src="assets/seaside-scene.webp" width="1536" height="1024" loading="lazy" alt="Illustrative seaside scene"><canvas data-preset="8,2,3" width="720" height="480" role="img" aria-label="Illustrative preview: a reflected bottom third" hidden></canvas></div><figcaption><span>03 / FIND A NEW HORIZON</span><span>Bottom · Third</span></figcaption></figure>
+        <figure><div class="photo-frame"><img src="assets/seaside-scene.webp" width="1536" height="1024" loading="lazy" alt="Illustrative seaside scene"><canvas data-preset="15,3,3" width="720" height="480" role="img" aria-label="Illustrative preview: reflected borders and corners around an original center" hidden></canvas></div><figcaption><span>04 / FOLD EVERY EDGE</span><span>All edges · Third / Third</span></figcaption></figure>
+      </div>
+    </section>
+
+    <section class="shoot wrap" id="shoot" aria-labelledby="shoot-title">
+      <div class="shoot-heading"><p class="eyebrow">04 / CAMERA IN HAND</p><h2 id="shoot-title">A little setup.<br>Then just shoot.</h2><p>You don’t need to build code or export from a menu. Install the module once, then use your camera.</p><a class="text-link" href="https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds#start-shooting">Read the full guide <span aria-hidden="true">↗</span></a></div>
+      <ol class="steps"><li><span class="step-number">01</span><div><h3>Check your EOS M.</h3><p>You need the <strong>original Canon EOS M</strong> with firmware 2.0.2 and Magic Lantern already installed. The tested ML build is dev 2025-06-20.</p><a href="https://builds.magiclantern.fm/EOSM.html">New to Magic Lantern? Start here ↗</a></div></li><li><span class="step-number">02</span><div><h3>Copy one file.</h3><p>Download 0.2.0 and unzip it. With the camera <strong>powered off</strong>, copy <code>mirror.mo</code> from <code>ML/MODULES</code> into that same folder on your card.</p></div></li><li><span class="step-number">03</span><div><h3>Enable the module.</h3><p>Put the card back. In Magic Lantern’s <strong>Modules</strong> tab, enable <strong>mirror.mo</strong>, then restart your camera. Keep other MAXmade effects off.</p></div></li><li><span class="step-number">04</span><div><h3>Choose a fold. Take a photo.</h3><p>Open <strong>Shoot → Mirror Worlds</strong>. Turn <strong>Live effect ON</strong>, choose your edges and sizes, close the menu and press the physical shutter. Release between photos.</p></div></li></ol>
+    </section>
+
+    <section class="setup wrap" id="setup" aria-labelledby="setup-title"><div><p class="eyebrow">YOUR STARTING POINT</p><h2 id="setup-title">An EOS M.<br>And a curious eye.</h2></div><div><p class="setup-lead">Developed on and tested on the <strong>original Canon EOS M</strong>. Other Canon cameras, including other EOS M models, have not been validated.</p><dl class="setup-list"><div><dt>Camera</dt><dd>Original Canon EOS M · firmware 2.0.2</dd></div><div><dt>Magic Lantern</dt><dd>Dev build 2025-06-20 · EOSM.202</dd></div><div><dt>Tested shooting setup</dt><dd>A+ · Auto ISO · Canon RAW · single-shot drive</dd></div><div><dt>LiveView</dt><dd>Native 1× view · Global Draw ON</dd></div></dl><p class="small-note">This is a module for an existing Magic Lantern installation. The download does not replace your Canon firmware or Magic Lantern core.</p></div></section>
+
+    <section class="faq wrap" aria-labelledby="faq-title"><div><p class="eyebrow">A FEW GOOD QUESTIONS</p><h2 id="faq-title">Before you head out.</h2></div><div class="questions"><details><summary>Is the effect really in the RAW?</summary><p>Yes. The module reflects the sensor samples before Canon writes the CR2. You use the normal shutter button, and Canon handles immediate review and playback. There is no TIFF or DNG conversion, and the module doesn’t create a companion original.</p></details><details><summary>Do I need manual ISO or manual focus?</summary><p>No. The tested setup uses A+ and Auto ISO. Canon autofocus and exposure continue to work while you compose with the mirror.</p></details><details><summary>Will it remember my settings?</summary><p>Yes. ON/OFF, mirror placement, width and height save automatically. Leave it ON and it resumes when LiveView is ready after restart. You don’t need a separate save action.</p></details><details><summary>Why can’t I choose Half for opposing edges?</summary><p>Two half-width borders would leave no original center to reflect. Left + Right, Top + Bottom and All edges therefore start at Third. A single edge can still use Half.</p></details><details><summary>Can I shoot bursts or video?</summary><p>This release is for single RAW photos. Release the shutter between shots. More mirrored area may take longer to process. Continuous drive, remote triggering, video and long exposures are outside the supported workflow.</p></details><details><summary>What if the effect won’t start?</summary><p>Check the camera and ML versions above, use native 1× LiveView with Global Draw ON, and turn other MAXmade effects off. Try Live effect OFF/ON or restart. A capture rejected by the safeguards may remain unmirrored. You can report a problem on <a href="https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds/issues">GitHub</a>.</p></details></div></section>
+
+    <section class="download-section"><div class="wrap download-inner"><div><p class="eyebrow">MIRROR WORLDS / 0.2.0</p><h2>Go find<br><em>the other side.</em></h2><p>Made for the original Canon EOS M.<br>Free to use. Open to explore.</p></div><div class="download-actions"><a class="button light" href="downloads/MIRROR-0.2.0-EOSM202.zip" download>Download 0.2.0 <span aria-hidden="true">↓</span></a><a href="https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds/releases/tag/v0.2.0">Release notes &amp; source ↗</a><span>First public release · GPL-2.0-or-later</span></div></div></section>
+  </main>
+  <footer class="wrap"><a class="wordmark" href="#">MIRROR WORLDS</a><p>Made by <strong>Max Seelig (MAXmade)</strong><br>Independent project. Not affiliated with Canon.</p><div><a href="https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds">Source on GitHub ↗</a><a href="assets/CREDITS.md">Visual credits</a><span>© 2026 MAXmade</span></div></footer>
+</body>
+</html>
