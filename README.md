@@ -12,6 +12,16 @@ Mirror Worlds adds creative mirror effects to your camera. Make impossible build
 
 *Right · Half. These examples use the website’s mirror renderer and an AI-generated starting scene; they are illustrations, not photos captured with the module. Mirror Worlds itself uses no AI.*
 
+## On-device screenshots
+
+Captured directly on the original Canon EOS M by Max Seelig (MAXmade). The menu and LiveView screenshots below show Mirror Worlds running on the camera, with its overlays intact. These are screen captures, not exported CR2 photos. Click any screenshot to view it at full size.
+
+| Mirror Worlds controls | LiveView · reflections in the room |
+|---|---|
+| [![Mirror Worlds menu: Live effect ON – Ready, All edges, Width Sixth and Height Quarter](site/assets/screenshots/vram0.webp)](site/assets/screenshots/vram0.webp) | [![EOS M LiveView showing mirrored wall-mounted objects with camera overlays and a composition grid](site/assets/screenshots/vram4.webp)](site/assets/screenshots/vram4.webp) |
+| **LiveView · color and reflection** | **LiveView · another point of view** |
+| [![EOS M LiveView showing orange and black artwork reflected into a triangular pattern](site/assets/screenshots/vram5.webp)](site/assets/screenshots/vram5.webp) | [![EOS M LiveView showing orange, yellow and black artwork with reflections around the center](site/assets/screenshots/vram6.webp)](site/assets/screenshots/vram6.webp) |
+
 ## What can it do?
 
 - **Mirror one edge:** left, right, top or bottom.

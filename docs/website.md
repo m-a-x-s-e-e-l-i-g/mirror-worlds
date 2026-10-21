@@ -28,7 +28,9 @@ Alternatively, run the build above and upload the **contents of `.site-build`** 
 
 ## Images and demonstrations
 
-The sample scene is AI-generated and clearly labelled as an illustration. The browser calculates the reflections; these are not claimed to be camera sample photos. The camera module itself uses no AI. Visitors can try a JPG, PNG or WebP locally in their browser; the file is not uploaded.
+The on-device gallery shows four original Canon EOS M screenshots captured by MAXmade: the controls menu and three LiveView scenes. The images in `site/assets/screenshots/` are lossless WebP conversions of the original BMPs, at 720 × 480 with camera overlays intact. The README uses these same files. These are screen captures, not exported CR2 photos.
+
+The playground's sample scene is AI-generated and clearly labelled as an illustration. The browser calculates the reflections; these are not claimed to be camera sample photos. The camera module itself uses no AI. Visitors can try a JPG, PNG or WebP locally in their browser; the file is not uploaded.
 
 See [visual credits](../site/assets/CREDITS.md). Fonts are self-hosted under their included SIL Open Font Licenses.
 
