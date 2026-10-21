@@ -1,6 +1,6 @@
 # The landing page
 
-The site is prepared for **Netlify deployment only**. No Netlify project or production deployment was created as part of this release.
+The site is live at **[mirror-worlds.netlify.app](https://mirror-worlds.netlify.app/)**, deployed on Netlify from this repository’s `main` branch. The base directory is the repository root; keep it empty in Netlify’s build settings, rather than setting it to `site/`.
 
 ## Preview locally
 

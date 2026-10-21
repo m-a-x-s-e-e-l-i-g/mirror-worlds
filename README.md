@@ -6,11 +6,11 @@ Mirror Worlds adds creative mirror effects to your camera. Make impossible build
 
 **Developed on and tested on the original Canon EOS M.** Made by **Max Seelig (MAXmade)**.
 
-[**Download 0.2.0**](https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds/releases/download/v0.2.0/MIRROR-0.2.0-EOSM202.zip) · [Start shooting](#start-shooting) · [Camera compatibility](#will-it-work-with-my-camera)
+[**Visit the website & try a mirror**](https://mirror-worlds.netlify.app/) · [**Download 0.2.0**](https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds/releases/download/v0.2.0/MIRROR-0.2.0-EOSM202.zip) · [Start shooting](#start-shooting) · [Camera compatibility](#will-it-work-with-my-camera)
 
-![Mirror Worlds: a mirrored seaside scene and the photography-zine landing page](docs/landingpage-preview.png)
+![Right · Half: the left half of a seaside scene reflected into the right half](docs/images/right-half.png)
 
-*Illustrative browser preview. The starting scene is AI-generated, not a photo captured with the module. Mirror Worlds itself uses no AI.*
+*Right · Half. These examples use the website’s mirror renderer and an AI-generated starting scene; they are illustrations, not photos captured with the module. Mirror Worlds itself uses no AI.*
 
 ## What can it do?
 
@@ -65,9 +65,11 @@ Opposing edges start at **Third**: two half-size borders would leave no original
 
 All **44 usable combinations** are in the same build. Change settings and shoot—no intermediate builds or diagnostic logging steps.
 
-![The interactive mirror playground, with placement and border-size controls](docs/mirror-playground.png)
+| Left + Right · Quarter | Bottom · Third | All edges · Third / Third |
+|---|---|---|
+| ![Mirrored outer quarters on both sides of the seaside scene](docs/images/left-right-quarter.png) | ![The bottom third reflects the seaside scene above it](docs/images/bottom-third.png) | ![Mirrored borders and corners surround the original center](docs/images/all-edges-third.png) |
 
-*The landing page lets you explore the layouts before picking up your camera. This is a browser illustration, not a camera sample.*
+*One scene, three more folds. [Try the layouts on the website](https://mirror-worlds.netlify.app/#try), or choose your own photo in the playground.*
 
 ## Good to know
 
@@ -85,7 +87,7 @@ All **44 usable combinations** are in the same build. Change settings and shoot�
 
 **0.2.0 is the first public release of this standalone repository.** It contains the same module and ZIP accepted during development; the publication does not rebuild or change the camera binary.
 
-The landing page has an interactive mirror playground, examples, clear compatibility notes and installation instructions. It is **ready to deploy on Netlify**; see the [website guide](docs/website.md). The site has no build dependencies and works as a static page.
+The [Mirror Worlds website](https://mirror-worlds.netlify.app/) is live on Netlify, with an interactive mirror playground, examples, clear compatibility notes and installation instructions. See the [website guide](docs/website.md) for local previews and deployment settings. The site has no build dependencies and works as a static page.
 
 For people who want to look inside: [building the module](docs/development.md), [release notes](docs/release-0.2.0.md) and [checksums](downloads/SHA256SUMS).
 
