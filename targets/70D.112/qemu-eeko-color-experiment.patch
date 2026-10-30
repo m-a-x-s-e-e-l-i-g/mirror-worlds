@@ -1,0 +1,81 @@
+diff --git a/hw/eos/capture.c b/hw/eos/capture.c
+index de7df76..3df504d 100644
+--- a/hw/eos/capture.c
++++ b/hw/eos/capture.c
+@@ -78,6 +78,7 @@ static const struct capture_profile *profile(void)
+             return NULL;
+         }
+         cap.p = eos_state->model->capture;
++        cap.release_line = cap.p->init_release_line;
+         if (cap.p->init_tv)
+         {
+             cap.tv = cap.p->init_tv;
+diff --git a/hw/eos/capture.h b/hw/eos/capture.h
+index fc71f6a..42fd0e9 100644
+--- a/hw/eos/capture.h
++++ b/hw/eos/capture.h
+@@ -11,6 +11,7 @@ struct capture_profile
+ {
+     uint32_t release_gpio;          /* GPIO the DIGIC sets at release start and clears when the sensor
+                                      * is set up for the exposure (and again after the readout) */
++    uint32_t init_release_line;    /* initial GPIO mode/level, zero preserves prior profiles */
+     uint32_t release_bit;           /* the bit of that register that carries the line */
+     int capready_irq;               /* "CAPREADY": the exposure runs */
+     int vd_irq;                     /* HEAD timer counting the exposure's VD periods (HEAD1) */
+diff --git a/hw/eos/model_list.c b/hw/eos/model_list.c
+index f8b616e..8b0e4ab 100644
+--- a/hw/eos/model_list.c
++++ b/hw/eos/model_list.c
+@@ -1,6 +1,43 @@
+ #include <stddef.h>
+ #include "model_list.h"
+ 
++/* Local 70D.112 research: MPU release events ONLY. No sensor/compression model.
++ * ROM EventMgr at ff0f21c4 copies payload[0x37]+0x38 for event 2,
++ * payload[0x28]+0x29 for event 3. Zero extension selects the normal path.
++ * Exposure fields are an unverified experiment, not a camera-captured packet.
++ * This profile cannot establish a RAW write interval or hardware support. */
++#include "capture.h"
++#include "eeko.h"
++static const struct capture_profile capture_70d_release_events = {
++    .release_data_len = 0x38,
++    .after_data_len = 0x29,
++    .release_gpio = 0xc02200a8, .release_bit = 2,
++    .init_release_line = 0x44,
++    .capready_irq = 0x51,
++    .vd_irq = -1,
++    .jpcore_conn = -1,
++    .init_tv = 0x68, .init_av = 0x30, .init_iso = 0x48,
++};
++
++
++/* 70D.112 research: only the firmware-derived ClrAlgor completion.
++ * ff42619c registers ff426130; ff4261c0 sends cmd 4/param 0x800.
++ * The callback releases a semaphore for status byte 0..3. No decryption
++ * or image processing is implemented; every other command is unanswered. */
++static int eeko_70d_color_completion(const struct eeko_msg *req, struct eeko_msg *out)
++{
++    if (req->ch < 2 && req->cmd == EEKO_COLOR && req->param == 0x800) {
++        out[0] = *req;
++        out[0].ch = 3;
++        out[0].arg = 0;
++        return 1;
++    }
++    return 0;
++}
++static const struct eeko_profile eeko_70d_research = {
++    .message = eeko_70d_color_completion,
++};
++
+ /* Camera profiles (docs/models/PROFILES.md): each hw/eos/cams/<CAM>/ declares its hooks in profile.h
+  * and holds its table entry in model.inc.c, included below at its place in the DIGIC group. */
+ #include "cams/1100D/profile.h"
+@@ -476,6 +513,8 @@ struct eos_model_desc eos_model_list[] = {
+     },
+     {
+         .name                   = MODEL_NAME_70D,
++        .capture                = &capture_70d_release_events,
++        .eeko                   = &eeko_70d_research,
+         .digic_version          = 5,
+         .rom0_size              = 0x00800000,   /* 8MB */
+         .ram_size               = 0x20000000,   /* 512MB */

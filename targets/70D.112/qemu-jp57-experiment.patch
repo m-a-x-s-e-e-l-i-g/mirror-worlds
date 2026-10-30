@@ -1,0 +1,322 @@
+diff --git a/hw/eos/capture.c b/hw/eos/capture.c
+index de7df76..3df504d 100644
+--- a/hw/eos/capture.c
++++ b/hw/eos/capture.c
+@@ -78,6 +78,7 @@ static const struct capture_profile *profile(void)
+             return NULL;
+         }
+         cap.p = eos_state->model->capture;
++        cap.release_line = cap.p->init_release_line;
+         if (cap.p->init_tv)
+         {
+             cap.tv = cap.p->init_tv;
+diff --git a/hw/eos/capture.h b/hw/eos/capture.h
+index fc71f6a..ea638f6 100644
+--- a/hw/eos/capture.h
++++ b/hw/eos/capture.h
+@@ -9,8 +9,10 @@
+ 
+ struct capture_profile
+ {
++    int jp57_research;             /* isolated 70D lossless experiment */
+     uint32_t release_gpio;          /* GPIO the DIGIC sets at release start and clears when the sensor
+                                      * is set up for the exposure (and again after the readout) */
++    uint32_t init_release_line;    /* initial GPIO mode/level, zero preserves prior profiles */
+     uint32_t release_bit;           /* the bit of that register that carries the line */
+     int capready_irq;               /* "CAPREADY": the exposure runs */
+     int vd_irq;                     /* HEAD timer counting the exposure's VD periods (HEAD1) */
+@@ -60,4 +62,12 @@ unsigned int capture_jpcore_output_size(unsigned int dflt);
+ void capture_edmac_read(int conn, int size);
+ int capture_edmac_write_held(int channel, int conn, int delay);
+ 
++
++int capture_jp57_mmio(unsigned off, unsigned type, unsigned value, unsigned *ret);
++int capture_jp57_pending(int conn);
++int capture_jp57_input(int conn, const void *data, int size);
++
++int capture_jp57_fill(int conn,void *data,int size);
++void capture_jp57_output_progress(int conn,int delay);
++
+ #endif
+diff --git a/hw/eos/engine.c b/hw/eos/engine.c
+index b24d248..fc03e3d 100644
+--- a/hw/eos/engine.c
++++ b/hw/eos/engine.c
+@@ -535,6 +535,11 @@ static int edmac_do_transfer(int channel)
+             }
+         }
+         capture_edmac_read(conn, transfer_data_size);
++        if (capture_jp57_input(conn, eos_state->edmac.conn_data[conn].buf, new_size)) {
++            free(eos_state->edmac.conn_data[conn].buf);
++            eos_state->edmac.conn_data[conn].buf = NULL;
++            eos_state->edmac.conn_data[conn].data_size = 0;
++        }
+         fprintf(stderr, "[EDMAC#%d] %d bytes read from %X-%X.\n",
+                 channel, transfer_data_size,
+                 eos_state->edmac.ch[channel].addr,
+@@ -543,6 +548,7 @@ static int edmac_do_transfer(int channel)
+     else
+     {
+         /* from image processing modules to memory */
++        if (capture_jp57_pending(conn)) return 0;
+         uint32_t dst = eos_state->edmac.ch[channel].addr;
+         
+         if (conn == 0 || conn == 35)
+@@ -577,7 +583,8 @@ static int edmac_do_transfer(int channel)
+             eos_state->edmac.conn_data[conn].buf = malloc(transfer_data_size);
+             assert(eos_state->edmac.conn_data[conn].buf);
+             eos_state->edmac.conn_data[conn].data_size = transfer_data_size;
+-            if (!capture_fill_conn(conn, eos_state->edmac.conn_data[conn].buf, transfer_data_size))
++            if (!capture_jp57_fill(conn, eos_state->edmac.conn_data[conn].buf, transfer_data_size) &&
++                !capture_fill_conn(conn, eos_state->edmac.conn_data[conn].buf, transfer_data_size))
+             {
+                 fprintf(stderr, "[ENGINE] FIXME: returning dummy data on <%d>\n", conn);
+                 memset(eos_state->edmac.conn_data[conn].buf, 0, transfer_data_size);
+@@ -665,6 +672,7 @@ static int edmac_do_transfer(int channel)
+     {
+         return 1;               /* the capture model raises it once the JPEG core has its input */
+     }
++    capture_jp57_output_progress(conn,delay);
+     edmac_trigger_interrupt(channel, delay);
+     return 1;
+ }
+@@ -1202,6 +1210,8 @@ unsigned int eos_handle_jpcore(unsigned int parm, unsigned int address, unsigned
+         }
+     }
+ 
++    if (parm == 2 && capture_jp57_mmio(address & 0xffff, type, value, &ret)) return ret;
++
+     if (parm == 0 && (type & MODE_WRITE))
+     {
+         capture_jpcore_write(address & 0xFFFF, value);
+diff --git a/hw/eos/model_list.c b/hw/eos/model_list.c
+index f8b616e..53ffb72 100644
+--- a/hw/eos/model_list.c
++++ b/hw/eos/model_list.c
+@@ -1,6 +1,44 @@
+ #include <stddef.h>
+ #include "model_list.h"
+ 
++/* Local 70D.112 research: MPU release events ONLY. No sensor/compression model.
++ * ROM EventMgr at ff0f21c4 copies payload[0x37]+0x38 for event 2,
++ * payload[0x28]+0x29 for event 3. Zero extension selects the normal path.
++ * Exposure fields are an unverified experiment, not a camera-captured packet.
++ * This profile cannot establish a RAW write interval or hardware support. */
++#include "capture.h"
++#include "eeko.h"
++static const struct capture_profile capture_70d_release_events = {
++    .jp57_research = 1,
++    .release_data_len = 0x38,
++    .after_data_len = 0x29,
++    .release_gpio = 0xc02200a8, .release_bit = 2,
++    .init_release_line = 0x44,
++    .capready_irq = 0x51,
++    .vd_irq = -1,
++    .jpcore_conn = -1,
++    .init_tv = 0x68, .init_av = 0x30, .init_iso = 0x48,
++};
++
++
++/* 70D.112 research: only the firmware-derived ClrAlgor completion.
++ * ff42619c registers ff426130; ff4261c0 sends cmd 4/param 0x800.
++ * The callback releases a semaphore for status byte 0..3. No decryption
++ * or image processing is implemented; every other command is unanswered. */
++static int eeko_70d_color_completion(const struct eeko_msg *req, struct eeko_msg *out)
++{
++    if (req->ch < 2 && req->cmd == EEKO_COLOR && req->param == 0x800) {
++        out[0] = *req;
++        out[0].ch = 3;
++        out[0].arg = 0;
++        return 1;
++    }
++    return 0;
++}
++static const struct eeko_profile eeko_70d_research = {
++    .message = eeko_70d_color_completion,
++};
++
+ /* Camera profiles (docs/models/PROFILES.md): each hw/eos/cams/<CAM>/ declares its hooks in profile.h
+  * and holds its table entry in model.inc.c, included below at its place in the DIGIC group. */
+ #include "cams/1100D/profile.h"
+@@ -476,6 +514,8 @@ struct eos_model_desc eos_model_list[] = {
+     },
+     {
+         .name                   = MODEL_NAME_70D,
++        .capture                = &capture_70d_release_events,
++        .eeko                   = &eeko_70d_research,
+         .digic_version          = 5,
+         .rom0_size              = 0x00800000,   /* 8MB */
+         .ram_size               = 0x20000000,   /* 512MB */
+diff --git a/hw/eos/cams/70D/jp57_research.c b/hw/eos/cams/70D/jp57_research.c
+new file mode 100644
+--- /dev/null
++++ b/hw/eos/cams/70D/jp57_research.c
+@@ -0,0 +1,89 @@
++/* Local 70D.112 QEMU research, not camera code. */
++#include "qemu/osdep.h"
++#include "hw/eos/eos.h"
++#include "hw/eos/model_list.h"
++#include "hw/eos/capture.h"
++
++static uint32_t regs[1024];
++static int started;
++static int done;
++static uint8_t *stream;
++static size_t stream_size, stream_pos;
++int mirror_lj14_encode(const uint16_t*,uint32_t,uint32_t,uint8_t**,size_t*);
++static int enabled(void)
++{
++    return eos_state->model->capture && eos_state->model->capture->jp57_research;
++}
++int capture_jp57_mmio(unsigned off, unsigned type, unsigned value, unsigned *ret)
++{
++    if (!enabled()) return 0;
++    if (off >= sizeof(regs) || (off & 3)) return 0;
++    if (type & MODE_WRITE) {
++        regs[off / 4] = value;
++        if (off == 0) {
++            started = !!(value & 1);done=0;
++            if (!started) { free(stream);stream=NULL;stream_size=stream_pos=0; }
++            else if ((regs[1]&15)==7) { done=1;started=0; }
++        }
++        if (off == 0x44 && (value & 0x400)) done=0;
++    }
++    *ret = regs[off / 4];
++    if (off == 0) *ret = 0x1010000 | (started&&!done);
++    if (off == 0x30) *ret = 0x1ff;
++    if (off == 0x44) *ret = done?0x400:0;
++    if (off == 0x24 && !(type & MODE_WRITE)) *ret = stream_size;
++    static unsigned last[1024];static uint8_t seen[1024];
++    if (off < 0x100 && ((type & MODE_WRITE)||!seen[off/4]||last[off/4]!=*ret))
++        fprintf(stderr,"[JP57R] %c %04X value=%08X ret=%08X pc=%08X\n", (type & MODE_WRITE)?'W':'R',off,value,*ret,CURRENT_CPU->env.regs[15]);
++    last[off/4]=*ret;seen[off/4]=1;
++    return 1;
++}
++int capture_jp57_pending(int conn)
++{
++    return enabled() && conn == 45 && (!stream || stream_pos>=stream_size);
++}
++static uint16_t raw14(const uint8_t *data,size_t bytes,size_t index)
++{
++    size_t bit=index*14,word=bit/16,off=bit%16;
++    size_t pos=word*2;
++    uint32_t a=data[pos]|data[pos+1]<<8,b=0;
++    if(pos+3<bytes)b=data[pos+2]|data[pos+3]<<8;
++    return (((a<<16)|b)>>(18-off))&16383;
++}
++int capture_jp57_input(int conn, const void *data, int size)
++{
++    if (!enabled() || !started || conn!=1 || stream) return 0;
++    fprintf(stderr,"[JP57R] input conn=%d bytes=%d frame=%08X components=%08X\n",conn,size,regs[0x80/4],regs[0x84/4]);
++    unsigned width=regs[0x80/4]&65535,height=regs[0x80/4]>>16;
++    if(!width||!height||width>3000||height>4000||regs[0x84/4]!=0x20e||(regs[1]&15)!=2) return 0;
++    size_t plane=(size_t)width*height,count=plane*2;
++    if((size_t)size!=count*14/8) { fprintf(stderr,"[JP57R] incomplete or unsupported input geometry\n");return 0; }
++    uint16_t *pixels=malloc(count*2);assert(pixels);
++    for(unsigned y=0;y<height;y++)for(unsigned x=0;x<width;x++)for(unsigned c=0;c<2;c++)
++        pixels[(size_t)y*width*2+x*2+c]=raw14(data,size,c*plane+(size_t)y*width+x);
++    int result=mirror_lj14_encode(pixels,width*2,height,&stream,&stream_size);
++    fprintf(stderr,"[JP57R] encode result=%d size=%zu, two planes -> two components\n",result,stream_size);
++    const char *dir=getenv("QEMU_EOS_JP57_CAPTURE_DIR");
++    if(dir) {
++        char path[512];snprintf(path,sizeof(path),"%s/jp57-input.u16",dir);
++        FILE *f=fopen(path,"wb");if(f){fwrite(pixels,2,count,f);fclose(f);}
++        snprintf(path,sizeof(path),"%s/jp57-output.ljpeg",dir);
++        f=fopen(path,"wb");if(f&&stream){fwrite(stream,1,stream_size,f);}if(f)fclose(f);
++    }
++    free(pixels);
++    return result==0;
++}
++int capture_jp57_fill(int conn,void *data,int size)
++{
++    if(!enabled()||conn!=45||!stream||stream_pos>=stream_size)return 0;
++    size_t n=MIN((size_t)size,stream_size-stream_pos);
++    memset(data,0,size);memcpy(data,stream+stream_pos,n);stream_pos+=n;
++    fprintf(stderr,"[JP57R] output %zu/%zu bytes, requested %d\n",stream_pos,stream_size,size);
++    return 1;
++}
++void capture_jp57_output_progress(int conn,int delay)
++{
++    if(!enabled()||conn!=45||!stream||stream_pos<stream_size||done)return;
++    done=1;
++    eos_trigger_int_after_progress(0xa3,delay+4);
++}
+diff --git a/hw/eos/cams/70D/lossless14.c b/hw/eos/cams/70D/lossless14.c
+new file mode 100644
+--- /dev/null
++++ b/hw/eos/cams/70D/lossless14.c
+@@ -0,0 +1,74 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later
++ * Bounded reference encoder for QEMU research, not a camera module.
++ * ITU T.81 Annex H: SOF3, two components, predictor 1, 14-bit samples.
++ * https://www.w3.org/Graphics/JPEG/itu-t81.pdf
++ */
++#include <stdint.h>
++#include <stddef.h>
++#include <stdlib.h>
++
++int mirror_lj14_encode(const uint16_t*,uint32_t,uint32_t,uint8_t**,size_t*);
++
++typedef struct { uint8_t *p; size_t n,cap,limit; uint32_t bits; unsigned used; int failed; } writer;
++static void byte(writer *w, unsigned v)
++{
++    if (w->failed) return;
++    if (w->n==w->cap) {
++        size_t cap=w->cap?w->cap*2:4096;
++        if (cap>w->limit) cap=w->limit;
++        if (cap<=w->n) { w->failed=1;return; }
++        void *p=realloc(w->p,cap);
++        if (!p) { w->failed=1;return; }
++        w->p=p;w->cap=cap;
++    }
++    w->p[w->n++]=(uint8_t)v;
++}
++static void word(writer *w, unsigned v) { byte(w,v>>8);byte(w,v); }
++static void marker(writer *w, unsigned v) { byte(w,255);byte(w,v); }
++static void bits(writer *w, unsigned v, unsigned n)
++{
++    while (n--) {
++        w->bits=(w->bits<<1)|((v>>n)&1u);
++        if (++w->used==8) {
++            byte(w,w->bits);
++            if ((w->bits&255)==255) byte(w,0);
++            w->bits=w->used=0;
++        }
++    }
++}
++int mirror_lj14_encode(const uint16_t *pixels,uint32_t width,uint32_t height,uint8_t **out,size_t *size)
++{
++    if (!out||!size) return -1;
++    *out=NULL;*size=0;
++    if (!pixels||!width||width%2||width>131070||!height||height>65535) return -1;
++    if (height>24000000u/width) return -1;
++    size_t count=(size_t)width*height;
++    writer w={.limit=count*5+512};
++    marker(&w,0xd8);
++    marker(&w,0xc4);word(&w,34);byte(&w,0);
++    for (unsigned i=1;i<=16;i++) byte(&w,i==5?15:0);
++    for (unsigned i=0;i<15;i++) byte(&w,i);
++    marker(&w,0xc3);word(&w,14);byte(&w,14);word(&w,height);word(&w,width/2);byte(&w,2);
++    for (unsigned i=1;i<=2;i++) { byte(&w,i);byte(&w,0x11);byte(&w,0); }
++    marker(&w,0xda);word(&w,10);byte(&w,2);
++    for (unsigned i=1;i<=2;i++) { byte(&w,i);byte(&w,0); }
++    byte(&w,1);byte(&w,0);byte(&w,0);
++    for (uint32_t y=0;y<height;y++) {
++        for (uint32_t x=0;x<width;x++) {
++            size_t i=(size_t)y*width+x;
++            unsigned value=pixels[i];
++            if (value>16383) { free(w.p);return -1; }
++            int prediction=x>=2?pixels[i-2]:y?pixels[i-width]:8192;
++            int diff=(int)value-prediction;
++            unsigned mag=diff<0?-diff:diff,category=0;
++            for (unsigned m=mag;m;m>>=1) category++;
++            bits(&w,category,5);
++            if (category) bits(&w,diff<0?diff+((1u<<category)-1u):(unsigned)diff,category);
++        }
++    }
++    if (w.used) bits(&w,(1u<<(8-w.used))-1,8-w.used);
++    marker(&w,0xd9);
++    if (w.failed) { free(w.p);return -1; }
++    *out=w.p;*size=w.n;
++    return 0;
++}

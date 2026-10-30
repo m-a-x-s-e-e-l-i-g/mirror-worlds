@@ -10,7 +10,7 @@
 #define mirror_raw_trace_status FX(raw_trace_status)
 enum {MT_IDLE,MT_QUEUED,MT_ARMED,MT_DONE,MT_FAILED};
 enum {MT_OK,MT_NO_PREVIEW,MT_GUARD,MT_PATCH,MT_TIMEOUT,MT_CANCEL,MT_LOG,MT_SHUTDOWN};
-enum {MT_RAW_SOURCE,MT_SSS_SOURCE,MT_PREPARE,MT_START,MT_JPEG_SOURCE,MT_PREPARE_JPEG,MT_JOB_GET,MT_JOB_SET};
+enum {MT_RAW_SOURCE,MT_SSS_SOURCE,MT_PREPARE,MT_START,MT_JPEG_SOURCE,MT_PREPARE_JPEG,MT_JOB_GET,MT_JOB_SET,MT_BINDING_ONLY,MT_KIND_COUNT};
 typedef struct {
     unsigned phase,error,core_error,error_pc,installed,events,dropped,skipped,max_hook_us;
     unsigned requested_ms,armed_ms,last_event_ms,starts;

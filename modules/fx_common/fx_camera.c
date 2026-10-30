@@ -19,6 +19,7 @@
 #include "gl_format.h"
 #include "gl_memory_ml.h"
 #include "fx_copy.h"
+#include "fx_preview.h"
 #ifdef FX_PRIVATE_CPU_HEAP
 #include "fx_memory_plan.h"
 /* Pinned src/mem.c exports direct wrappers, bypassing automatic photo/SRM
@@ -33,15 +34,16 @@ extern void __priv_free(void *memory);
 extern void zoom_overlay_disable(void);
 extern int should_draw_zoom_overlay(void);
 extern int zebra_should_run(void);
-#define W 720u
-#define H 480u
-#define PITCH 1440u
+#define W camera.width
+#define H camera.height
+#define PITCH camera.pitch
 #define BYTES (PITCH*H)
 #define FX_STRING_(s) #s
 #define FX_STRING(s) FX_STRING_(s)
 enum { CAP_NONE, CAP_PENDING, CAP_READY, CAP_WRITING, CAP_DONE, CAP_FAILED, CAP_COPYING };
 enum { ERR_MEMORY=10, ERR_CONFLICT, ERR_LAYOUT, ERR_PIXELS, ERR_WAIT, ERR_FILE, ERR_CANCEL };
 static struct {
+    unsigned width,height,pitch;
     fx_status report;
     fx_state engine[2], captured;
     uint32_t times[2][720], captured_times[720];
@@ -49,7 +51,7 @@ static struct {
     void *raw[3]; unsigned char *image[3]; /* 0 committed canvas; 2 retained snapshot. */
     size_t scratch_bytes,canvas_bytes;
     unsigned scratch_generation;
-    int scratch_held,canvas_valid,tearing_down;
+    int scratch_held,canvas_valid,delivery_valid,tearing_down;
     void *workspace_raw,*workspace;size_t workspace_size;int work_writing;
     gl_review review;
     int current, painting, initialized, requested, reset, log_requested;
@@ -67,24 +69,27 @@ static void copy_pixels(void*dest,const void*src)
 void fx_canon_gui(unsigned state)
 {
     unsigned irq=lock();camera.canon_controls=1;camera.canon_gui=state;
-    if(native_review())gl_review_key(&camera.review,GL_R_DISMISS,get_ms_clock());
+    if(native_review()){
+        camera.delivery_valid=0;
+        gl_review_key(&camera.review,GL_R_DISMISS,get_ms_clock());
+    }
     unlock(irq);
 }
 static int layout(void){return lv&&!lv_paused&&lv_dispsize==1&&!ext_monitor_hdmi&&!sensor_cleaning&&
-    !ml_shutdown_requested&&vram_lv.width==720&&vram_lv.height==480&&vram_lv.pitch==1440;}
-static int family(const char *n){return !strcmp(n,"glock")||!strcmp(n,"slitscan")||!strcmp(n,"mirror")||
+    !ml_shutdown_requested&&vram_lv.width==(int)W&&vram_lv.height==(int)H&&vram_lv.pitch==(int)PITCH;}
+static int family(const char *n){return !strcmp(n,"glock")||!strcmp(n,"slitscan")||!strcmp(n,"mirror")||!strcmp(n,"kaleido")||
     !strcmp(n,"feedback")||!strcmp(n,"fragment")||!strcmp(n,"diffract");}
 static int claim(void)
 {
     /* Resolve outside the IRQ lock; loaded module/config tables are core-owned.
      * Unknown older family modules are refused, even when their menu is closed. */
-    const int *busy[6];unsigned count=0;
+    const int *busy[7];unsigned count=0;
     for(int id=module_get_next_loaded(-1);id>=0;id=module_get_next_loaded(id)){
         const char*n=module_get_name(id);
         if(n&&family(n)&&strcmp(n,FX_STRING(FX_PREFIX))){
             char name[64];gl_snprintf(name,sizeof(name),"maxmade.fx.%s.busy",n);
             struct config_var*v=module_get_config_var(name);
-            if(!v||!v->value||count>=6)return 0;
+            if(!v||!v->value||count>=7)return 0;
             busy[count++]=v->value;
         }
     }
@@ -95,6 +100,7 @@ static int claim(void)
 void fx_camera_init(void)
 {
     memset(&camera,0,sizeof(camera));camera.desired=FX(effect).defaults;
+    W=720;H=480;PITCH=1440;
     gl_review_init(&camera.review);camera.duration=3000;FX(active)=0;
 }
 int fx_native_capture_mode(void)
@@ -170,24 +176,33 @@ int fx_capture_scratch_acquire(fx_capture_scratch*out)
     unsigned irq=lock();
     int valid=camera.report.native_capture&&camera.scratch_bytes&&FX(active)&&
         camera.initialized&&camera.report.running&&!camera.stop&&!ml_shutdown_requested&&
-        !camera.painting&&!camera.work_writing&&!camera.scratch_held&&!camera.tearing_down&&
-        camera.canvas_valid&&!camera.review.state&&!native_review()&&camera.image[0];
+        !camera.work_writing&&!camera.scratch_held&&!camera.tearing_down&&layout()&&!gui_menu_shown()&&
+        camera.canvas_valid&&camera.delivery_valid&&!camera.review.state&&!native_review()&&camera.image[0];
     if(valid){
-        camera.scratch_held=1;camera.canvas_valid=0;
+        camera.scratch_held=1;
         if(!++camera.scratch_generation)++camera.scratch_generation;
-        *out=(fx_capture_scratch){camera.image[0],camera.canvas_bytes,camera.scratch_generation};
+        *out=(fx_capture_scratch){camera.image[0]+BYTES,camera.scratch_bytes,camera.scratch_generation};
     }
     unlock(irq);return valid;
+}
+int fx_capture_scratch_ready(const fx_capture_scratch*lease)
+{
+    if(!lease)return 0;
+    unsigned irq=lock();
+    int ready=camera.scratch_held&&lease->data==camera.image[0]+BYTES&&
+        lease->size==camera.scratch_bytes&&lease->generation==camera.scratch_generation&&
+        !camera.painting&&!camera.work_writing;
+    unlock(irq);return ready;
 }
 int fx_capture_scratch_release(const fx_capture_scratch*lease)
 {
     if(!lease)return 0;
     unsigned irq=lock();
-    int valid=camera.scratch_held&&lease->data==camera.image[0]&&
-        lease->size==camera.canvas_bytes&&lease->generation==camera.scratch_generation;
-    if(valid)camera.scratch_held=0;
-    /* The old canvas remains invalid until a fresh accepted render commits.
-     * Never expose bitmap bytes through half-edge rollback or error fallback. */
+    int valid=camera.scratch_held&&lease->data==camera.image[0]+BYTES&&
+        lease->size==camera.scratch_bytes&&lease->generation==camera.scratch_generation;
+    if(valid){camera.scratch_held=0;camera.delivery_valid=0;}
+    /* A new capture must accept a fresh preview after release. The leased
+     * tail never overlaps committed pixels, so half-press can keep rendering. */
     unlock(irq);return valid;
 }
 int fx_start(void)
@@ -277,7 +292,12 @@ void fx_diagnostics(void){camera.log_requested=1;}
 int fx_delivered_state(fx_state*out)
 {
     if(!out)return 0;
-    unsigned irq=lock();int valid=camera.report.running&&!camera.stop&&camera.canvas_valid&&camera.engine[camera.current].initialized;
+    unsigned irq=lock();
+    /* Cached pixels may remain useful for rendering/history while their
+     * delivery no longer represents the current camera view. Once invalid,
+     * only a newly accepted frame can make capture controls eligible again. */
+    if(!layout()||gui_menu_shown()||native_review()||camera.review.state)camera.delivery_valid=0;
+    int valid=camera.report.running&&!camera.stop&&camera.canvas_valid&&camera.delivery_valid&&camera.engine[camera.current].initialized;
     if(valid)*out=camera.engine[camera.current];
     unlock(irq);return valid;
 }
@@ -298,8 +318,8 @@ static void copy_snapshot(void)
 unsigned int fx_filter(void *context)
 {
     unsigned irq=lock();
-    if(camera.scratch_held){unlock(irq);return 0;}
     int ready=camera.report.running&&!camera.stop&&layout()&&!gui_menu_shown()&&!native_review();
+    if(!ready)camera.delivery_valid=0;
     if(!context){unlock(irq);return ready;}
     if(native_review()){unlock(irq);return 0;} /* Never paint over Canon review. */
     /* The core can retain a positive query across a mode/geometry change.
@@ -347,9 +367,10 @@ unsigned int fx_filter(void *context)
     if(camera.report.capture==CAP_PENDING){unlock(irq);copy_snapshot();irq=lock();}
     int valid=!error&&!camera.stop&&!camera.review.state&&!native_review()&&layout()&&!gui_menu_shown()&&
         (!camera.report.frozen||!memcmp(&p,&camera.held,sizeof(p)));
+    if(!layout()||gui_menu_shown()||native_review())camera.delivery_valid=0;
     if(valid){
         if(resetting)camera.reset=0;
-        camera.current=next;camera.canvas_valid=1;camera.report.frames++;
+        camera.current=next;camera.canvas_valid=camera.delivery_valid=1;camera.report.frames++;
         unsigned now=get_ms_clock();camera.report.interval_ms=camera.delivered_ms?now-camera.delivered_ms:0;
         if(camera.report.interval_ms>camera.report.max_interval_ms)camera.report.max_interval_ms=camera.report.interval_ms;
         camera.delivered_ms=now;camera.report.gaps=camera.engine[next].gaps;
@@ -387,14 +408,14 @@ static int save(void)
     }
     if(number==10000)return ERR_FILE;
     FILE*f=FIO_CreateFile(tif);if(!f)return ERR_FILE;
-    unsigned char row[W*3];
+    unsigned char row[720*3];
     int error=fx_tiff_write_ex(camera.image[2],BYTES,W,H,PITCH,row,sizeof(row),write_data,f,&camera.stop,FX(effect).description);
     FIO_CloseFile(f);uint32_t size=0;
     if(error||FIO_GetFileSize(tif,&size)||size!=512+W*H*3){FIO_RemoveFile(tif);return camera.stop?ERR_CANCEL:ERR_FILE;}
     f=FIO_CreateFile(json);if(!f)return ERR_FILE;
     fx_state*s=&camera.captured;
-    gl_snprintf(line,sizeof(line),"{\"kind\":\"%s\",\"module\":\"%s\",\"version\":\"%s\",\"width\":720,\"height\":480,\"request_ms\":%u,\"last_frame_ms\":%u,",
-        FX(effect).kind,FX(effect).module,FX(effect).version,camera.report.request_ms,s->last_ms);
+    gl_snprintf(line,sizeof(line),"{\"kind\":\"%s\",\"module\":\"%s\",\"version\":\"%s\",\"width\":%u,\"height\":%u,\"request_ms\":%u,\"last_frame_ms\":%u,",
+        FX(effect).kind,FX(effect).module,FX(effect).version,W,H,camera.report.request_ms,s->last_ms);
     int valid=text(f,line);unsigned json_bytes=(unsigned)strlen(line);
     for(unsigned i=0;valid&&i<FX(effect).param_count;i++){
         gl_snprintf(line,sizeof(line),"\"%s\":%u,",FX(effect).param_names[i],s->params.value[i]);
@@ -480,11 +501,21 @@ void fx_service(void)
         camera.requested=0;camera.report.error=0;
         if(camera.stop)goto cleanup;
         if(module_display_filter_enabled()){camera.report.error=ERR_CONFLICT;camera.stop=1;goto cleanup;}
+        /* Lock the core-reported layout for the lifetime of these buffers.
+         * In particular, 1100D uses 720x240, not the EOS M's 720x480.
+         * layout() rejects any later change before the callback copies bytes. */
+        get_yuv422_vram();
+        if(!fx_preview_geometry(vram_lv.width,vram_lv.height,vram_lv.pitch)){
+            camera.report.error=ERR_LAYOUT;camera.stop=1;goto cleanup;
+        }
+        W=(unsigned)vram_lv.width;H=(unsigned)vram_lv.height;PITCH=(unsigned)vram_lv.pitch;
+        if(!layout()){camera.report.error=ERR_LAYOUT;camera.stop=1;goto cleanup;}
         int available=GetFreeMemForAllocateMemory();
         camera.report.free_initial=available<0?0:(unsigned)available;camera.report.free_failed=0;
         camera.report.reserve=1536u*1024u;camera.report.allocation_stage=1;
         unsigned images=camera.report.native_capture?1:2;
-        camera.canvas_bytes=camera.scratch_bytes>BYTES?camera.scratch_bytes:BYTES;
+        if(camera.scratch_bytes>4u*1024u*1024u-BYTES){camera.report.error=ERR_MEMORY;camera.stop=1;goto cleanup;}
+        camera.canvas_bytes=BYTES+camera.scratch_bytes;
         camera.report.required=(unsigned)camera.canvas_bytes+(images-1)*BYTES+
             (unsigned)FX(effect).workspace_size+camera.report.reserve;
         int enough=available>=0&&(unsigned)available>=camera.report.required;
@@ -503,7 +534,7 @@ void fx_service(void)
         if(!enough){
             camera.report.error=ERR_MEMORY;camera.stop=1;goto cleanup;
         }
-        memset(camera.engine,0,sizeof(camera.engine));camera.current=0;camera.canvas_valid=0;
+        memset(camera.engine,0,sizeof(camera.engine));camera.current=0;camera.canvas_valid=camera.delivery_valid=0;
         camera.report.half=camera.report.frozen=0;
         for(unsigned i=0;i<images;i++){
             unsigned slot=i?2:0;
@@ -537,6 +568,7 @@ void fx_service(void)
         camera.report.core_ready=zebra_should_run();camera.report.zoom_active=should_draw_zoom_overlay();
         fx_half(get_halfshutter_pressed());get_yuv422_vram();
         unsigned preparing_irq=lock();
+        if(!layout()||gui_menu_shown()||native_review())camera.delivery_valid=0;
         fx_params preparation=camera.report.frozen?camera.held:camera.desired;
         int prepare=!camera.painting&&!camera.work_writing&&!camera.scratch_held&&!camera.stop&&
             !FX(effect).ready(camera.workspace,camera.workspace_size,&preparation,W,H,PITCH);
@@ -587,7 +619,7 @@ cleanup:
             private_free(2,camera.workspace_raw);camera.workspace_raw=0;camera.workspace=0;
             camera.report.allocated-=(unsigned)camera.workspace_size;camera.workspace_size=0;
         }
-        cleanup_irq=lock();camera.initialized=0;camera.canvas_valid=0;
+        cleanup_irq=lock();camera.initialized=0;camera.canvas_valid=camera.delivery_valid=0;
         camera.canvas_bytes=0;camera.tearing_down=0;FX(active)=0;unlock(cleanup_irq);
     }
     if(camera.log_requested)diagnostics();

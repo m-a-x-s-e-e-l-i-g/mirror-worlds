@@ -9,6 +9,7 @@
 #define mirror_gate_request_full FX(gate_request_full)
 #define mirror_gate_service FX(gate_service)
 #define mirror_gate_full_press FX(gate_full_press)
+#define mirror_gate_half_press FX(gate_half_press)
 #define mirror_gate_reader FX(gate_reader)
 #define mirror_gate_cancel FX(gate_cancel)
 #define mirror_gate_shutdown FX(gate_shutdown)
@@ -50,6 +51,10 @@ int mirror_gate_request_patch(void);
 int mirror_gate_request_full(void);
 void mirror_gate_service(void);
 void mirror_gate_full_press(void);
+/* EOS M does not export a full-shutter GUI event. A physical half-press
+ * prepares controls/workspace; the guarded Canon capture stage still decides
+ * whether a real photo is in progress. A half-press alone never writes RAW. */
+void mirror_gate_half_press(unsigned down);
 void mirror_gate_reader(unsigned pc);
 void mirror_gate_cancel(void);
 void mirror_gate_shutdown(void);

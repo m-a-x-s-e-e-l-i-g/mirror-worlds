@@ -9,7 +9,6 @@
 #include <module.h>
 #include <dryos.h>
 #include <lens.h>
-#include <edmac.h>
 #include <patch.h>
 #include <tasks.h>
 #define READ32(a) (*(const volatile uint32_t*)(uintptr_t)(a))
@@ -17,33 +16,44 @@
 #define SENSOR_PTR(a) ((void*)(uintptr_t)(a))
 #endif
 #include "mirror_capture_gate.h"
+#include "mirror_camera.h"
 #include "mirror_raw_trace.h"
 #include "gl_format.h"
 #include "fx_mirror_raw.h"
 #include "fx_mirror_edges.h"
 #include "fx_mirror_sensor.h"
-#define STAGE_PC 0xff3608d8u
-#define STAGE_CONTEXT 0x3f3d4u
-static const uint32_t stage_words[4]={0xe12fff1eu,0xe3a00000u,0xe12fff1eu,0xe12fff1eu};
+#include "fx_mirror_registered.h"
+#define NATIVE (*mirror_camera_native())
+#define STAGE_PC NATIVE.stage_pc
+#define STAGE_CONTEXT NATIVE.stage_context
+#define stage_words NATIVE.stage_words
 static struct {
     mirror_gate_report r;
     uint16_t samples[64*14]; /* First pass, kept out of UI/status stack copies. */
     uint16_t patch_before[64*14],patch_expected[64*14],patch_after[64*14];
     fx_mirror_raw patch_map; /* Avoid a large new frame on Canon's task stack. */
-    unsigned installed,closed,cancel,log_pending,writing,automatic;
+    fx_capture_scratch scratch; /* Private preview arena, never Canon storage. */
+    unsigned installed,closed,cancel,log_pending,writing,automatic,half_down,latch_from_half;
+    volatile int stop; /* Per-shot cancellation also checked by RAW preflight. */
 } gate;
 static unsigned lock(void){unsigned s=cli();__asm__ __volatile__("" ::: "memory");return s;}
 static void unlock(unsigned s){__asm__ __volatile__("" ::: "memory");sei(s);}
-static unsigned canonical(unsigned v){v&=~0x40000000u;return v>=0x1000u&&v<0x20000000u?v:0;}
+static unsigned canonical(unsigned v){v&=~NATIVE.alias_bit;return v>=0x1000u&&v<0x20000000u?v:0;}
 static void finish_locked(unsigned error)
-{gate.r.error=error;gate.r.phase=error?MG_FAILED:MG_DONE;gate.log_pending=!gate.closed&&!gate.automatic;}
+{
+    /* A held callback calls this only after its last workspace read. Cancel and
+     * shutdown leave MG_HELD alone until that callback unwinds. */
+    if(gate.scratch.data){fx_capture_scratch_release(&gate.scratch);memset(&gate.scratch,0,sizeof(gate.scratch));}
+    gate.r.error=error;gate.r.phase=error?MG_FAILED:MG_DONE;gate.log_pending=!gate.closed&&!gate.automatic;
+}
 void mirror_gate_status(mirror_gate_report*out)
 {if(out){unsigned s=lock();*out=gate.r;out->installed=gate.installed;unlock(s);}}
 static int request(unsigned sample_mode)
 {
+    if(!mirror_camera_native())return 0;
     unsigned s=lock();
     if(gate.closed||gate.r.phase==MG_QUEUED||gate.r.phase==MG_ARMED||gate.r.phase==MG_HELD||gate.log_pending||gate.writing){unlock(s);return 0;}
-    memset(&gate.r,0,sizeof(gate.r));memset(gate.samples,0,sizeof(gate.samples));gate.r.sample_mode=sample_mode;gate.cancel=0;gate.r.requested_ms=get_ms_clock();
+    memset(&gate.r,0,sizeof(gate.r));memset(gate.samples,0,sizeof(gate.samples));gate.r.sample_mode=sample_mode;gate.cancel=gate.stop=gate.latch_from_half=0;gate.r.requested_ms=get_ms_clock();
     memset(gate.patch_before,0,sizeof(gate.patch_before));memset(gate.patch_expected,0,sizeof(gate.patch_expected));memset(gate.patch_after,0,sizeof(gate.patch_after));
     gate.r.phase=MG_QUEUED;unlock(s);
     if(!gate.automatic&&!mirror_raw_trace_request()){s=lock();finish_locked(MG_TRACE_BUSY);unlock(s);return 0;}
@@ -51,11 +61,14 @@ static int request(unsigned sample_mode)
 }
 void mirror_gate_automatic(unsigned enabled)
 {
+    if(!mirror_camera_native())return;
     unsigned s=lock();
-    if(!enabled){unlock(s);mirror_gate_cancel();s=lock();gate.automatic=0;gate.log_pending=0;unlock(s);return;}
+    if(!enabled){unlock(s);mirror_gate_cancel();s=lock();gate.automatic=0;gate.log_pending=gate.half_down=0;unlock(s);return;}
     if(!gate.automatic&&!gate.closed){
-        gate.automatic=1;gate.cancel=0;gate.log_pending=0;
-        if(gate.r.phase!=MG_HELD){memset(&gate.r,0,sizeof(gate.r));}
+        gate.automatic=1;gate.log_pending=0;
+        /* ON is permission for a future request. A held, cancelled shot owns
+         * its cancellation and workspace until its callback unwinds. */
+        if(gate.r.phase!=MG_HELD){gate.cancel=gate.stop=0;memset(&gate.r,0,sizeof(gate.r));}
     }
     unlock(s);
     if(gate.automatic)mirror_raw_trace_runtime();
@@ -64,56 +77,71 @@ int mirror_gate_request(void){return request(0);}
 int mirror_gate_request_source(void){return request(1);}
 int mirror_gate_request_patch(void){return request(2);}
 int mirror_gate_request_full(void){return request(3);}
-void mirror_gate_full_press(void)
+static void latch(unsigned from_half)
 {
-    fx_state state;int ready=fx_delivered_state(&state);unsigned now=get_ms_clock(),s=lock();
+    if(!mirror_camera_native())return;
+    unsigned s=lock();fx_state state;int ready=fx_delivered_state(&state);unsigned now=get_ms_clock();
+    if(!from_half&&!gate.closed&&gate.r.phase==MG_ARMED&&gate.r.latched&&gate.latch_from_half){
+        gate.latch_from_half=0;gate.r.full_ms=now;unlock(s);return;
+    }
     /* First edge owns this one-shot request; duplicates/held bursts cannot
      * replace its controls while the callback is preparing or yielding. */
     if(!gate.closed&&gate.r.phase==MG_ARMED&&!gate.r.latched&&ready){
-        gate.r.latched=1;gate.r.full_ms=now;gate.r.preview_ms=state.last_ms;gate.r.params=state.params;
+        /* Acquire while LV/delivery are still valid. The RAW callback runs
+         * after Canon exits LV, too late to borrow the preview canvas there.
+         * Both the controls snapshot and lease belong to this first edge. */
+        int workspace=gate.r.sample_mode>=2&&fx_edges_valid(&state.params);
+        if(!workspace||fx_capture_scratch_acquire(&gate.scratch)){
+            gate.r.latched=1;gate.latch_from_half=from_half;gate.r.full_ms=now;gate.r.preview_ms=state.last_ms;gate.r.params=state.params;
+        }
     }
     unlock(s);
 }
+void mirror_gate_full_press(void){latch(0);}
+void mirror_gate_half_press(unsigned down)
+{
+    if(!mirror_camera_native())return;
+    unsigned s=lock();gate.half_down=down!=0;unlock(s);
+    if(down)latch(1);
+}
 void mirror_gate_cancel(void)
 {
-    unsigned s=lock();gate.cancel=1;
+    unsigned s=lock();gate.cancel=gate.stop=1;
     if(gate.r.phase==MG_QUEUED||gate.r.phase==MG_ARMED)finish_locked(MG_CANCEL);
     unlock(s);
 }
 void mirror_gate_shutdown(void)
 {
     unsigned s=lock();unsigned unfinished=gate.r.phase==MG_QUEUED||gate.r.phase==MG_ARMED||gate.log_pending||gate.writing;
-    gate.closed=gate.cancel=1;gate.log_pending=0;
+    gate.closed=gate.cancel=gate.stop=1;gate.log_pending=0;
     if(unfinished)finish_locked(MG_SHUTDOWN);
     unlock(s); /* A held callback unwinds after its next reschedule. No unpatch. */
 }
 void mirror_gate_reader(unsigned pc)
 {
+    if(!mirror_camera_native())return;
     unsigned s=lock();
     if(!gate.closed&&gate.r.phase==MG_HELD){
         /* Conservative: every observed getter/setter or known compression
          * hook is a potential competing consumer, without pointer reads. */
-        static const unsigned readers[]={0xff1707e8u,0xff1686d0u,0xff429210u,0xff4292b8u,
-            0xff168128u,0xff429280u,0xff22dac0u,0xff22da74u};
-        for(unsigned i=0;i<sizeof(readers)/sizeof(readers[0]);i++)if(pc==readers[i]){
+        for(unsigned i=0;i<NATIVE.point_count;i++)if(pc==NATIVE.points[i].pc){
             if(!gate.r.overlaps){gate.r.first_overlap_pc=pc;gate.r.first_overlap_us=get_us_clock();}
             gate.r.overlaps++;break;
         }
     }
     unlock(s);
 }
-/* Sensor origin is two rows before the QR readout address. This exact offset
- * is observed in both dev12/dev13 RAW reader10 configurations. Do not borrow
- * QR's shifted mosaic. The sampler reads only 1792 bytes from the existing
- * 32598720-byte nominal source, always through DIGIC V's uncached alias. */
+/* Each backend owns its source/readout origins and exact persistent flags.
+ * EOS M's zero-flags contract is retained; another camera cannot relax it. */
 static int photo_ready(const mirror_gate_report*r)
 {
-    struct edmac_info q=edmac_get_info(0);
-    return !lv&&lens_info.job_state&&READ32(STAGE_CONTEXT+0xb4u)==r->job&&
-        !edmac_get_state(0)&&!edmac_get_flags(0)&&
-        canonical((unsigned)edmac_get_address(0))==canonical(r->source)+0x9060u&&
-        canonical((unsigned)edmac_get_pointer(0))==canonical(r->source)+0x9060u+32607960u&&
-        q.xa==9240&&q.xb==9240&&q.xn==3528&&!q.ya&&!q.yb&&!q.yn&&
+    mirror_dma_info q;
+    if(!mirror_camera_dma(0,&q))return 0;
+    return !lv&&lens_info.job_state&&READ32(STAGE_CONTEXT+NATIVE.stage_job_offset)==r->job&&
+        !edmac_get_state(0)&&edmac_get_flags(0)==NATIVE.readout_flags&&
+        canonical((unsigned)edmac_get_address(0))==canonical(r->source)+NATIVE.readout_offset&&
+        canonical((unsigned)edmac_get_pointer(0))==canonical(r->source)+NATIVE.readout_offset+NATIVE.readout_bytes&&
+        q.xa==NATIVE.pitch&&q.xb==NATIVE.pitch&&q.xn==NATIVE.readout_xn&&!q.ya&&!q.yb&&!q.yn&&
         !q.off1a&&!q.off1b&&!q.off2a&&!q.off2b&&!q.off3;
 }
 static unsigned sample_pass(unsigned after)
@@ -125,11 +153,11 @@ static unsigned sample_pass(unsigned after)
             r->overlaps?MG_OVERLAP:get_us_clock()-r->enter_us>=250000u?MG_OVERRUN:
             !photo_ready(r)?MG_READOUT:MG_OK;
         unlock(s);if(error)return error;
-        unsigned y=((patch/8)*1763/7)*2,x=((patch%8)*659/7)*8;
-        unsigned base=(canonical(r->source)+0x4830u)|0x40000000u;
+        unsigned y=((patch/8)*((NATIVE.height-2)/2)/7)*2,x=((patch%8)*((NATIVE.width-8)/8)/7)*8;
+        unsigned base=(canonical(r->source)+NATIVE.origin_offset)|NATIVE.alias_bit;
         for(unsigned row=0;row<2;row++)for(unsigned word=0;word<7;word++){
             unsigned index=patch*14+row*7+word;
-            uint16_t value=READ16(base+(y+row)*9240u+x*14u/8u+word*2u);
+            uint16_t value=READ16(base+(y+row)*NATIVE.pitch+x*14u/8u+word*2u);
             if(after){r->changed+=value!=gate.samples[index];r->after_count++;}
             else{gate.samples[index]=value;r->before_count++;}
         }
@@ -148,32 +176,61 @@ static unsigned patch_guard(void)
 }
 static const uint32_t*patch_region(void)
 {
-    static const uint32_t small[4]={1536,2160,2048,3184},full[4]={64,84,3520,5268};
-    return gate.r.sample_mode==3?full:small;
+    static const uint32_t small[4]={1536,2160,2048,3184};
+    return gate.r.sample_mode==3?NATIVE.region:small;
 }
 static void patch_position(unsigned patch,unsigned*y,unsigned*x)
 {
-    if(gate.r.sample_mode==3){*y=64+((patch/8)*1727/7)*2;*x=88+((patch%8)*646/7)*8;}
+    if(gate.r.sample_mode==3){
+        const uint32_t*r=NATIVE.region;unsigned first=(r[1]+7)&~7u;
+        *y=r[0]+((patch/8)*((r[2]-r[0]-2)/2)/7)*2;
+        *x=first+((patch%8)*((r[3]-first-8)/8)/7)*8;
+    }
     else{*y=1536+((patch/8)*255/7)*2;*x=2160+((patch%8)*127/7)*8;}
+}
+static unsigned original_sample(unsigned base,unsigned x,unsigned y)
+{
+    unsigned bit=x*14,shift=bit&15,at=base+y*NATIVE.pitch+(bit/16)*2;
+    unsigned a=READ16(at);
+    return shift<=2?(a>>(2-shift))&16383:((a<<(shift-2))|(READ16(at+2)>>(18-shift)))&16383;
+}
+static unsigned expected_axis(unsigned at,unsigned begin,unsigned end,unsigned div,unsigned low,unsigned high)
+{
+    unsigned border=2*(((end-begin)/2)/div),source=at;
+    if(low&&at<begin+border)source=2*(begin+border-1)-at;
+    else if(high&&at>=end-border)source=2*(end-border)-at;
+    return source;
+}
+static unsigned registered_expected(unsigned base,unsigned x,unsigned y,const fx_mirror_raw*m)
+{
+    unsigned mask=m->params.value[1];
+    unsigned sx=expected_axis(x,m->left,m->right,m->params.value[2],mask&1,mask&2);
+    unsigned sy=expected_axis(y,m->top,m->bottom,m->params.value[3],mask&4,mask&8);
+    return original_sample(base,sx,sy);
 }
 static unsigned patch_test(void)
 {
     mirror_gate_report*r=&gate.r;fx_mirror_raw*m=&gate.patch_map;
-    unsigned base=(canonical(r->source)+0x4830u)|0x40000000u;
+    unsigned base=(canonical(r->source)+NATIVE.origin_offset)|NATIVE.alias_bit;
     const fx_params fixed={{90,2,500,500}};
     if(memcmp(&r->params,&fixed,sizeof(fixed))&&!fx_edges_valid(&r->params))return MG_CONTROLS;
     const uint32_t*region=patch_region();
-    gl_frame frame={SENSOR_PTR(base),32598720u,5280,3528,9240,GL_CANON14,0,16383};
-    if(fx_mirror_raw_prepare(m,&frame,region,&r->params,0))return MG_PATCH_PREP;
+    gl_frame frame={SENSOR_PTR(base),NATIVE.sensor_bytes,NATIVE.width,NATIVE.height,NATIVE.pitch,GL_CANON14,0,16383};
+    if(fx_mirror_raw_prepare(m,&frame,region,&r->params,&gate.stop))return MG_PATCH_PREP;
+    int registered=fx_edges_valid(&r->params);
+    if(registered&&(!gate.scratch.data||gate.scratch.size<fx_mirror_registered_workspace(m)))return MG_PATCH_PREP;
     for(unsigned patch=0;patch<64;patch++){
         unsigned error=patch_guard();if(error)return error;
         unsigned y,x;patch_position(patch,&y,&x);
         for(unsigned row=0;row<2;row++){
             uint16_t v[8];
-            for(unsigned i=0;i<8;i++)if(fx_mirror_raw_sample(m,x+i,y+row,&v[i]))return MG_PATCH_PREP;
+            for(unsigned i=0;i<8;i++){
+                if(registered)v[i]=(uint16_t)registered_expected(base,x+i,y+row,m);
+                else if(fx_mirror_raw_sample(m,x+i,y+row,&v[i]))return MG_PATCH_PREP;
+            }
             for(unsigned j=0;j<7;j++){
                 unsigned n=patch*14+row*7+j;
-                gate.patch_before[n]=READ16(base+(y+row)*9240u+x*14u/8u+j*2u);
+                gate.patch_before[n]=READ16(base+(y+row)*NATIVE.pitch+x*14u/8u+j*2u);
                 unsigned expected=j<6?((unsigned)v[j]<<(2+2*j))|(v[j+1]>>(12-2*j)):((unsigned)v[6]<<14)|v[7];
                 gate.patch_expected[n]=(uint16_t)expected;
                 r->patch_changed+=gate.patch_before[n]!=gate.patch_expected[n];
@@ -181,11 +238,14 @@ static unsigned patch_test(void)
         }
     }
     unsigned error=patch_guard();if(error)return error;
-    /* No yield or early cancellation once the bounded rectangle starts.
-     * The fixed source area remains unchanged; the complete fold is idempotent.
+    /* No yield or early cancellation once the bounded rectangle starts. The
+     * registered fold copies original same-phase samples without averaging.
+     * Apply once per accepted shutter request.
      * This is an opt-in publication experiment, NOT a general ownership grant. */
     unsigned began=get_us_clock();r->patch_started=1;
-    int result=fx_mirror_sensor_axial(m,SENSOR_PTR(base),32598720u);
+    int result=registered?fx_mirror_registered_apply(m,SENSOR_PTR(base),NATIVE.sensor_bytes,gate.scratch.data,gate.scratch.size):
+        fx_mirror_sensor_axial(m,SENSOR_PTR(base),NATIVE.sensor_bytes);
+    if(result==FX_CANCEL)r->patch_started=0; /* Both kernels cancel before writes. */
 #ifndef FX_GATE_HOST_TEST
     unsigned zero=0;__asm__ __volatile__("mcr p15, 0, %0, c7, c10, 4"::"r"(zero):"memory");
 #endif
@@ -198,7 +258,7 @@ static unsigned patch_test(void)
         unsigned y,x;patch_position(patch,&y,&x);
         for(unsigned row=0;row<2;row++)for(unsigned j=0;j<7;j++){
             unsigned n=patch*14+row*7+j;
-            gate.patch_after[n]=READ16(base+(y+row)*9240u+x*14u/8u+j*2u);
+            gate.patch_after[n]=READ16(base+(y+row)*NATIVE.pitch+x*14u/8u+j*2u);
             r->patch_mismatches+=gate.patch_after[n]!=gate.patch_expected[n];r->patch_verified++;
         }
     }
@@ -206,6 +266,7 @@ static unsigned patch_test(void)
 }
 static void enter(uint32_t*regs,uint32_t*stack,uint32_t pc)
 {
+    if(!mirror_camera_native())return;
     unsigned s=lock();
     if(gate.closed||gate.r.phase!=MG_ARMED){unlock(s);return;}
     if(!regs||stack!=regs+14||pc!=STAGE_PC){finish_locked(MG_CONTEXT);unlock(s);return;}
@@ -213,20 +274,29 @@ static void enter(uint32_t*regs,uint32_t*stack,uint32_t pc)
     r->enter_us=get_us_clock();r->cpsr=regs[-1];r->lr=regs[13];r->context=regs[10];r->source=regs[0];
     /* Only the exact, source-backed synchronous caller, not an interrupt or
      * another caller of the no-op, may run this scheduling experiment. */
-    if((r->cpsr&31u)!=0x13u||(r->cpsr&0xc0u)||r->lr!=0xff152238u||r->context!=STAGE_CONTEXT){
+    if((r->cpsr&NATIVE.stage_cpsr_mask)!=NATIVE.stage_cpsr_value||r->lr!=NATIVE.stage_caller||r->context!=STAGE_CONTEXT){
         finish_locked(MG_CONTEXT);unlock(s);return;
     }
-    r->task=(unsigned)get_current_task_id();r->job=READ32(STAGE_CONTEXT+0xb4u);
+    r->task=(unsigned)get_current_task_id();r->job=READ32(STAGE_CONTEXT+NATIVE.stage_job_offset);
     if(!r->latched||get_ms_clock()-r->full_ms>5000u){finish_locked(MG_NO_SHUTTER);unlock(s);return;}
     r->dma_before=edmac_get_state(0);r->dma_address=(unsigned)edmac_get_address(0);r->dma_pointer=(unsigned)edmac_get_pointer(0);
-    unsigned flags=edmac_get_flags(0);struct edmac_info q=edmac_get_info(0);r->dma_after=edmac_get_state(0);
+    unsigned flags=edmac_get_flags(0);mirror_dma_info q;
+    if(!mirror_camera_dma(0,&q)){finish_locked(MG_READOUT);unlock(s);return;}
+    r->dma_after=edmac_get_state(0);
     unsigned source=canonical(r->source),address=canonical(r->dma_address),pointer=canonical(r->dma_pointer);
-    if(!source||source>0x20000000u-0x9060u-32607960u||!canonical(r->job)||
-       lv||!lens_info.job_state||r->dma_before||r->dma_after||flags||
-       address!=source+0x9060u||pointer!=address+32607960u||q.xa!=9240||q.xb!=9240||q.xn!=3528||
+    if(!source||(source&NATIVE.source_alignment_mask)||source>0x20000000u-NATIVE.readout_offset-NATIVE.readout_bytes||!canonical(r->job)||
+       lv||!lens_info.job_state||r->dma_before||r->dma_after||flags!=NATIVE.readout_flags||
+       address!=source+NATIVE.readout_offset||pointer!=address+NATIVE.readout_bytes||q.xa!=NATIVE.pitch||q.xb!=NATIVE.pitch||q.xn!=NATIVE.readout_xn||
        q.ya||q.yb||q.yn||q.off1a||q.off1b||q.off2a||q.off2b||q.off3){finish_locked(MG_READOUT);unlock(s);return;}
     r->phase=MG_HELD;unsigned began=r->enter_us;unlock(s);
-    unsigned sample_error=r->sample_mode?sample_pass(0):MG_OK;
+    /* LV is now off, so no new render can start. Let an already in-flight
+     * preview/cache sync finish before sampling or modifying Canon RAW. */
+    for(unsigned i=0;gate.scratch.data&&!fx_capture_scratch_ready(&gate.scratch)&&i<20;i++){
+        if(gate.closed||gate.cancel||ml_shutdown_requested||r->overlaps)break;
+        msleep(1);
+    }
+    unsigned sample_error=gate.scratch.data&&!fx_capture_scratch_ready(&gate.scratch)?MG_PATCH_PREP:
+        r->sample_mode?sample_pass(0):MG_OK;
     /* Before either opt-in mutation, use the same scheduling/sample check. Yield so
      * lower-priority consumers can run; a CPU spin would mask a missing hold.
      * 100ms is requested, not an OS rescheduling guarantee. Twenty yield calls
@@ -317,7 +387,26 @@ fail: if(!gate.closed){unsigned s=lock();gate.r.error=MG_LOG;gate.r.phase=MG_FAI
 #endif
 void mirror_gate_service(void)
 {
+    if(!mirror_camera_native())return;
     if(ml_shutdown_requested||gate.closed){mirror_gate_shutdown();return;}
+    unsigned half_irq=lock();
+    if(gate.half_down&&!get_halfshutter_pressed())gate.half_down=0;
+    unlock(half_irq);
+    /* Keep a held physical half-press fresh while Canon is still in valid LV.
+     * Once Canon starts the photo or exits LV, the normal five-second stage
+     * deadline applies. Controls stay those accepted at the original press. */
+    if(gate.r.phase==MG_ARMED&&gate.half_down&&lv&&!lens_info.job_state){
+        if(!gate.r.latched)latch(1);
+        else if(gate.latch_from_half){
+            fx_state current;
+            if(fx_delivered_state(&current)&&!memcmp(&current.params,&gate.r.params,sizeof(current.params))){
+                unsigned irq=lock();
+                if(gate.r.phase==MG_ARMED&&gate.r.latched&&gate.latch_from_half&&gate.half_down&&lv&&!lens_info.job_state)
+                    gate.r.full_ms=get_ms_clock();
+                unlock(irq);
+            }
+        }
+    }
     if(gate.automatic&&(gate.r.phase==MG_IDLE||gate.r.phase==MG_DONE)&&
        !lens_info.job_state&&!get_halfshutter_pressed()&&lv&&!lv_paused&&!gui_menu_shown()&&
        gui_state!=1&&gui_state!=3&&gui_state!=12){
@@ -330,7 +419,7 @@ void mirror_gate_service(void)
         if(tr.phase==MT_FAILED)finish_locked(MG_TRACE_FAILED);
         else if(!gate.automatic&&get_ms_clock()-gate.r.requested_ms>15000u)finish_locked(MG_TIMEOUT);
         unlock(s);
-        if(gate.r.phase==MG_QUEUED&&tr.phase==MT_ARMED&&tr.installed==255u&&
+        if(gate.r.phase==MG_QUEUED&&tr.phase==MT_ARMED&&tr.installed==((1u<<NATIVE.point_count)-1)&&
            !lens_info.job_state&&!get_halfshutter_pressed()&&lv&&!lv_paused&&!gui_menu_shown()){
             unsigned error=MG_OK;
             if(!gate.installed){
@@ -345,6 +434,16 @@ void mirror_gate_service(void)
         }
     }
     unsigned s=lock();
+    /* A shutter may never reach this hook (or arrive too late). The same
+     * five-second latch deadline applies to the lease and callback. */
+    if(gate.r.phase==MG_ARMED&&gate.r.latched&&get_ms_clock()-gate.r.full_ms>5000u){
+        if(gate.latch_from_half&&lv&&!lens_info.job_state){
+            /* Half-press without taking a photo is normal. Release quietly;
+             * retain a short grace period for quick full-press/release shots. */
+            if(gate.scratch.data){fx_capture_scratch_release(&gate.scratch);memset(&gate.scratch,0,sizeof(gate.scratch));}
+            gate.r.latched=gate.r.full_ms=gate.latch_from_half=0;
+        }else finish_locked(MG_NO_SHUTTER);
+    }
     if(!gate.automatic&&gate.r.phase==MG_ARMED&&get_ms_clock()-gate.r.armed_ms>60000u)finish_locked(MG_TIMEOUT);
     unsigned write=gate.log_pending&&!gate.writing&&!lens_info.job_state;
     if(write){gate.log_pending=0;gate.writing=1;}unlock(s);

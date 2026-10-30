@@ -27,6 +27,6 @@ test('paired halves are adjusted; unknown settings are rejected',()=>{
 });
 test('compatibility, honest illustration label and download are present',async()=>{
   const html=await readFile(new URL('../site/index.html',import.meta.url),'utf8');
-  for(const phrase of ['original Canon EOS M','2.0.2','2025-06-20','AI-generated','MIRROR-0.2.0-EOSM202.zip','normal shutter button'])assert.ok(html.includes(phrase),phrase);
+  for(const phrase of ['original Canon EOS M','2.0.2','2025-06-20','AI-generated','downloads/0.3.0/MIRROR-0.3.0-EOSM202.zip','normal shutter button'])assert.ok(html.includes(phrase),phrase);
   assert.ok(!html.includes('https://unpkg.com'));assert.ok(!html.includes('analytics'));
 });

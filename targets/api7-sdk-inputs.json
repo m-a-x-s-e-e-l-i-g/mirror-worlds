@@ -1,0 +1,513 @@
+{
+  "revision": "dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12",
+  "repository": "ryulin456/magiclantern-zh",
+  "prefix": "source/work/src-lua-fix-zh",
+  "files": [
+    {
+      "path": "src/af_patterns.h",
+      "sha": "3e7b9020a01b043496ef133b49e43d3e972cd83f",
+      "size": 7222
+    },
+    {
+      "path": "src/all_features.h",
+      "sha": "f698e6f1fff56ccdb1766375a24680417ae40073",
+      "size": 8551
+    },
+    {
+      "path": "src/all_headers.h",
+      "sha": "d406da30653817651cd40a74f07f017471fb95e7",
+      "size": 304
+    },
+    {
+      "path": "src/arm-mcr.h",
+      "sha": "0a70186c424f6ade80ee399ca8b89b6fad166b81",
+      "size": 8397
+    },
+    {
+      "path": "src/asm.h",
+      "sha": "34003fbd58abe787b4159d23a0af85b61b7ff725",
+      "size": 104
+    },
+    {
+      "path": "src/audio.h",
+      "sha": "d25d4e84cbc61e13babd5b7a4d9272cdfc8a0c0a",
+      "size": 26370
+    },
+    {
+      "path": "src/backtrace.h",
+      "sha": "6b216b60337bbcedb7b591ae692541b66c807bf6",
+      "size": 1565
+    },
+    {
+      "path": "src/battery.h",
+      "sha": "96c16ee92e6a33baaf3b3e375e266585091abc87",
+      "size": 471
+    },
+    {
+      "path": "src/beep.h",
+      "sha": "1559c6970f0cbafec1a34c2b1d2a6ad58622ce1c",
+      "size": 309
+    },
+    {
+      "path": "src/bmp.h",
+      "sha": "5bf861650fe9b541225c0c087608c009ed98f1fb",
+      "size": 19505
+    },
+    {
+      "path": "src/boot-hack.h",
+      "sha": "57c61f74fce66522e9021ba5934f25c86caffb24",
+      "size": 200
+    },
+    {
+      "path": "src/cache_hacks.h",
+      "sha": "628d4e5838c58563a6e64a891eab7c7e3de90a81",
+      "size": 16063
+    },
+    {
+      "path": "src/camera.h",
+      "sha": "aad375cf471f2e9f69d9408baa25142581d5d861",
+      "size": 2846
+    },
+    {
+      "path": "src/cfn-generic.h",
+      "sha": "dcc40a02ea144f43af6320493148b6457e2ad383",
+      "size": 1302
+    },
+    {
+      "path": "src/chdk-dng.h",
+      "sha": "86217fc27a7e19c8d993563d8488047959ff50d3",
+      "size": 689
+    },
+    {
+      "path": "src/compiler.h",
+      "sha": "3855e33e381d8f63235ff37dc02f5f5b66cbd545",
+      "size": 1985
+    },
+    {
+      "path": "src/config-defines.h",
+      "sha": "a197fa1252ca2076fd6f1761be54250e24cd4919",
+      "size": 1944
+    },
+    {
+      "path": "src/config.h",
+      "sha": "7e4649ab3333af7b7ed57ac0d6b9e79eb5efaed5",
+      "size": 4601
+    },
+    {
+      "path": "src/console.h",
+      "sha": "e68a07313407b87ccff991afe50cc3159e9ec485",
+      "size": 182
+    },
+    {
+      "path": "src/cordic-16bit.h",
+      "sha": "5cead8759836a604d41742f60b005ec26cd88e9b",
+      "size": 1185
+    },
+    {
+      "path": "src/crc32.h",
+      "sha": "68c822c5f31eb71c407ef2ed349321602d30a2af",
+      "size": 624
+    },
+    {
+      "path": "src/crop-mode-hack.h",
+      "sha": "87956f61e1f165431ae7ce425850e860803e09af",
+      "size": 1240
+    },
+    {
+      "path": "src/cropmarks.h",
+      "sha": "17638ba37a3aa0b36fe596981b6ed218d810cf2b",
+      "size": 419
+    },
+    {
+      "path": "src/debug.h",
+      "sha": "f070d3b0be6e661213bc263b4fdcef7316c1bfd7",
+      "size": 3854
+    },
+    {
+      "path": "src/dialog.h",
+      "sha": "aa4b84c36e5c413897aa24e44eb1565cdd04b9d3",
+      "size": 10644
+    },
+    {
+      "path": "src/disable-this-module.h",
+      "sha": "cfeb8a3cdf497663f81d7d2365ff954d4c0f94b6",
+      "size": 675
+    },
+    {
+      "path": "src/disp_direct.h",
+      "sha": "7b022beae3b62e06cfb95f551a50f5f75c3aba5a",
+      "size": 664
+    },
+    {
+      "path": "src/dm-spy.h",
+      "sha": "103a9869765684d19fa8793a066f2d4ea3690f89",
+      "size": 87
+    },
+    {
+      "path": "src/dryos-notes.h",
+      "sha": "9315df0a0c3a9826e0b1ad4a3eafd956452cf813",
+      "size": 16135
+    },
+    {
+      "path": "src/dryos.h",
+      "sha": "a1ce308274beb9c7ce8576187d0a4f1cdbd5a29a",
+      "size": 8587
+    },
+    {
+      "path": "src/edmac-memcpy.h",
+      "sha": "acff5411e75a9e305632c64d47ee232373fd4c5c",
+      "size": 1599
+    },
+    {
+      "path": "src/edmac.h",
+      "sha": "ec677f524aabd54100cf35ad958b648a1d3c4410",
+      "size": 4084
+    },
+    {
+      "path": "src/electronic_level.h",
+      "sha": "286316a94c1f6360b488c4014da0ec057b2d14f0",
+      "size": 263
+    },
+    {
+      "path": "src/exmem.h",
+      "sha": "72962e0ee069bb25009397ea46a8a4fe856e9e50",
+      "size": 3663
+    },
+    {
+      "path": "src/falsecolor.h",
+      "sha": "4db7ad51b459352d083a3c07a28b0953b71733e0",
+      "size": 506
+    },
+    {
+      "path": "src/fileprefix.h",
+      "sha": "04fa5b045c4caff496550c084aa6a419323bb219",
+      "size": 494
+    },
+    {
+      "path": "src/fio-ml.h",
+      "sha": "56f84d236b14022faa902f8f8bab6fcd2e7caa21",
+      "size": 5284
+    },
+    {
+      "path": "src/firmware.h",
+      "sha": "e46b3408cbc009cd86b90a766dec89c595a85d9d",
+      "size": 2339
+    },
+    {
+      "path": "src/flexinfo.h",
+      "sha": "e04aea2caf3f11db8ced23e11c36514c9cd44ef6",
+      "size": 8173
+    },
+    {
+      "path": "src/focus.h",
+      "sha": "f5f2a0dbac993590b81d6911473766b247f8f914",
+      "size": 1335
+    },
+    {
+      "path": "src/font.h",
+      "sha": "551e663579393dac1fa3dea7e37d51b77fd01166",
+      "size": 2043
+    },
+    {
+      "path": "src/font_direct.h",
+      "sha": "63ced70e9fc95836baa47359e979d5ec60bd2aef",
+      "size": 217
+    },
+    {
+      "path": "src/fps.h",
+      "sha": "d1fa1c6d6df3eab9739552d0aecdfe245dc80be5",
+      "size": 1098
+    },
+    {
+      "path": "src/fw-signature.h",
+      "sha": "7611d3e15e1cb721991599d2ecb84df6de418177",
+      "size": 1616
+    },
+    {
+      "path": "src/gdb.h",
+      "sha": "9ae3438181d8f068ebff9768c26b51ff8569ad17",
+      "size": 2479
+    },
+    {
+      "path": "src/gps.h",
+      "sha": "f8b8b9f042624fe948effb2ebff9667b32f5fdc7",
+      "size": 304
+    },
+    {
+      "path": "src/greenscreen.h",
+      "sha": "bb9583f39566feed4110e263a492b00ac7ef6880",
+      "size": 143
+    },
+    {
+      "path": "src/gui-common.h",
+      "sha": "332a4f089d012e31aff24adf470d3c35e81ebd7d",
+      "size": 10482
+    },
+    {
+      "path": "src/hdr.h",
+      "sha": "a68202a4f0acbaadb03fabafc40bd30b86c04058",
+      "size": 248
+    },
+    {
+      "path": "src/histogram.h",
+      "sha": "251920bdbbf22a2d6eb266dba7e64ad4a642bc89",
+      "size": 1861
+    },
+    {
+      "path": "src/imath.h",
+      "sha": "8b42a9c715cf6b2a9303dd79be3c2ad0be5f03ab",
+      "size": 3294
+    },
+    {
+      "path": "src/imgconv.h",
+      "sha": "fc9823dccc6a92f12a59bbf3b157d3571d59c883",
+      "size": 1982
+    },
+    {
+      "path": "src/lcdsensor.h",
+      "sha": "795fa82e85af8932ab2c94e3e56327bdd3d90922",
+      "size": 176
+    },
+    {
+      "path": "src/lens.h",
+      "sha": "7d453570f446153a98ed544ffdd9e715acb6e234",
+      "size": 24234
+    },
+    {
+      "path": "src/libtcc.h",
+      "sha": "4c02240c012032f2bf6556ef284bd39abd86ea37",
+      "size": 3369
+    },
+    {
+      "path": "src/lvinfo.h",
+      "sha": "185b97dba4f378a36a42766b4edfa88ec05eedfd",
+      "size": 4668
+    },
+    {
+      "path": "src/mem.h",
+      "sha": "05c55c1d85ded6677a599104e4e92f545b1adae6",
+      "size": 5142
+    },
+    {
+      "path": "src/menu.h",
+      "sha": "d248a7083beb76d7d089abf38c1db975d811f6d4",
+      "size": 18461
+    },
+    {
+      "path": "src/menuhelp.h",
+      "sha": "7b9b8b0153a13cffd5e8e75df68e46dc446eadd2",
+      "size": 464
+    },
+    {
+      "path": "src/menuindexentries.h",
+      "sha": "8b137891791fe96927ad78e64b0aad7bded08bdc",
+      "size": 1
+    },
+    {
+      "path": "src/ml-cbr.h",
+      "sha": "8d1c3f7968b0f8d9be25b84b3a3da18bcb63464a",
+      "size": 1700
+    },
+    {
+      "path": "src/ml_rpc.h",
+      "sha": "ce93b61aea477c3045adc27891fb618e81d502ba",
+      "size": 1309
+    },
+    {
+      "path": "src/module.h",
+      "sha": "d3a9284707ab033bc62e3f0f443b55faadb08609",
+      "size": 17184
+    },
+    {
+      "path": "src/mvr.h",
+      "sha": "2c1d03eaecdffc189a42d42169332c5fdc341d62",
+      "size": 221
+    },
+    {
+      "path": "src/notify_box.h",
+      "sha": "c2b92f0f0b64220a1c2f2b422b9c0cc0a7a3228a",
+      "size": 132
+    },
+    {
+      "path": "src/picstyle.h",
+      "sha": "ee2965dc17111a226547e8ba4e5cf86aa4f12903",
+      "size": 1230
+    },
+    {
+      "path": "src/powersave.h",
+      "sha": "9c151675e66007feccc617898bd5bf7c6f85d0ba",
+      "size": 959
+    },
+    {
+      "path": "src/property.h",
+      "sha": "092f395c8995e29e10bcd73e5fac986b50039cdf",
+      "size": 23463
+    },
+    {
+      "path": "src/propvalues.h",
+      "sha": "bc92e61a756e41792548b13bd4b779d890f70075",
+      "size": 4569
+    },
+    {
+      "path": "src/ptp-chdk.h",
+      "sha": "1cb76b26d357ce01e4567518a0b521d5e5a078e4",
+      "size": 4970
+    },
+    {
+      "path": "src/ptp-ml.h",
+      "sha": "e9aa869262ed43e3ad27ba5178c1ca6862cb081b",
+      "size": 2135
+    },
+    {
+      "path": "src/ptp.h",
+      "sha": "6f1f4cc9aa721f50b354a1997fc5d437980c3cc7",
+      "size": 5100
+    },
+    {
+      "path": "src/ptpbuf.h",
+      "sha": "9d04d6f0097b3f09d41a14bd4812dce896d0eb2f",
+      "size": 656
+    },
+    {
+      "path": "src/qemu-util.h",
+      "sha": "4c447f1c783bb63afb9397d334b4424a4e4573fd",
+      "size": 2309
+    },
+    {
+      "path": "src/rand.h",
+      "sha": "ab6846361f14eaa195de234469e81dd099e7ead6",
+      "size": 452
+    },
+    {
+      "path": "src/raw.h",
+      "sha": "641f74699d1fd4d98355fb70364a26e1b76e7878",
+      "size": 10911
+    },
+    {
+      "path": "src/rbf_font.h",
+      "sha": "3d697b54d7dba2e4a97673e0b303aecb22c1ce0d",
+      "size": 3395
+    },
+    {
+      "path": "src/reloc.h",
+      "sha": "fe038992960b25136c7190875b4d29868b3d3c0a",
+      "size": 394
+    },
+    {
+      "path": "src/screenshot.h",
+      "sha": "951066df028abdbfd200d8b262e30a4913f50979",
+      "size": 916
+    },
+    {
+      "path": "src/shoot.h",
+      "sha": "ff3d082db956b2806195e12acb340b528126b2cc",
+      "size": 4409
+    },
+    {
+      "path": "src/state-object.h",
+      "sha": "80275cf8fc2aa49e0e4700e47f89a2bf203f5ecb",
+      "size": 2500
+    },
+    {
+      "path": "src/tasks.h",
+      "sha": "d92c5467b709c80bdece0d0657c47c26b865efd7",
+      "size": 5302
+    },
+    {
+      "path": "src/timer.h",
+      "sha": "a872694d84bf116a885262471e7e3409e8459ce0",
+      "size": 2264
+    },
+    {
+      "path": "src/tp-spy.h",
+      "sha": "707cba8a539ea3ea985d862974961191e7610342",
+      "size": 83
+    },
+    {
+      "path": "src/tskmon.h",
+      "sha": "dd68896985b3480ffa7aa85163c8612b94f23f22",
+      "size": 1424
+    },
+    {
+      "path": "src/tweaks-eyefi.h",
+      "sha": "c850ba9da874cbec9fe3302320c50d1ede6488ed",
+      "size": 407
+    },
+    {
+      "path": "src/util.h",
+      "sha": "e16e6cca73370f935a86a18f88894dd5f4b86911",
+      "size": 1044
+    },
+    {
+      "path": "src/vectorscope.h",
+      "sha": "a0a4285623c71921b127c640d0e5c3499652d510",
+      "size": 238
+    },
+    {
+      "path": "src/version.h",
+      "sha": "5dfb47897f79415f83318e075a9a449a866416ce",
+      "size": 1119
+    },
+    {
+      "path": "src/vram.h",
+      "sha": "d1b14951003250ab148b41b80f243cc19ae8b356",
+      "size": 10407
+    },
+    {
+      "path": "src/zebra.h",
+      "sha": "73e393a949a9556dabcae227933d622670a2bc75",
+      "size": 4416
+    },
+    {
+      "path": "src/zh_cn_modules.h",
+      "sha": "12c3e486acfd37ae3cca3da7222471cf78a6291f",
+      "size": 4577
+    },
+    {
+      "path": "src/zh_cn_translations.h",
+      "sha": "248a8ca9c6e99c342c1612a56b343d40026911e3",
+      "size": 59311
+    },
+    {
+      "path": "platform/all/Makefile",
+      "sha": "cecea820d3065f1d58ec13522eb92fe4e8ef9b0a",
+      "size": 824
+    },
+    {
+      "path": "platform/all/Makefile.platform.default",
+      "sha": "262bad363308e3e4ee4620e50cf2445c5aff13aa",
+      "size": 122
+    },
+    {
+      "path": "platform/all/Makefile.setup.default",
+      "sha": "2663532eb9842f52c721de1a7bc31cef82fe62f1",
+      "size": 56
+    },
+    {
+      "path": "platform/all/consts.h",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0
+    },
+    {
+      "path": "platform/all/features.h",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0
+    },
+    {
+      "path": "platform/all/gui.h",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0
+    },
+    {
+      "path": "platform/all/internals.h",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0
+    },
+    {
+      "path": "COPYING",
+      "sha": "82fa1daad468f054c81cc561d7f7c32b2ff25580",
+      "size": 18326
+    }
+  ],
+  "purpose": "Historical module SDK for isolated API-7 preview builds; platform/all contains generic module stubs only."
+}

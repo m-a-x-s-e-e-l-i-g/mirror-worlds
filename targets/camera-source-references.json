@@ -1,0 +1,13 @@
+{
+  "references": [
+    {
+      "model": "1200D",
+      "firmware": "1.0.2",
+      "firmware_code": "102",
+      "source_kind": "Historical Magic Lantern source mirror; target absent from the current pinned ML checkout",
+      "revision": "479852f5671a916e88e050de5fcef5e04628d8c7",
+      "internals_url": "https://raw.githubusercontent.com/dandwyer/magic-lantern/479852f5671a916e88e050de5fcef5e04628d8c7/platform/1200D.102/internals.h",
+      "internals_sha256": "5ca66dfa73fade1bb6a3379d99bb5a635d07dde0bd397c640185424e7aadffda"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "repository": "ryulin456/magiclantern-zh",
+  "revision": "dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12",
+  "archives": [
+    {
+      "target": "100D.101",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.100D.101.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.100D.101.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "git_blob_sha1": "a44187a57d3f6d844bd04860d6bbef8bc478811a",
+      "size": 1997801,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.100D.101.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "sha256": "6014b3157ad86e2efb99de14527367529f11281680a418713a57a0e708da27b9"
+    },
+    {
+      "target": "1100D.105",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.1100D.105.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.1100D.105.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "git_blob_sha1": "f146e4e5e49f0e3640cdfd181709fa9a2d377f39",
+      "size": 1902733,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.1100D.105.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "sha256": "11741ed199ff02883f996ddf00ce85ed3b8b4baf2a9fb10f204e7af01508ef8a"
+    },
+    {
+      "target": "50D.109",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.50D.109.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.50D.109.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "git_blob_sha1": "5d6e778c22f9774107b39ec1afad8d7ec07aa863",
+      "size": 2008469,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.50D.109.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "sha256": "024f4d893dc8602d51e419b7a10a5b02c8c8e160b7ebc021ef39413209770dff"
+    },
+    {
+      "target": "550D.109",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.550D.109.zh-CN.r3-FULL-MODULES-LOW-MEMORY-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.550D.109.zh-CN.r3-FULL-MODULES-LOW-MEMORY-TEST-ONLY.zip",
+      "git_blob_sha1": "64b5cc3e32ae22b8972a1ab92406eb9f10611c32",
+      "size": 2020933,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.550D.109.zh-CN.r3-FULL-MODULES-LOW-MEMORY-TEST-ONLY.zip",
+      "sha256": "e178b0aa42bb115340b3836200b61a6d61195136b9592d44847fea504988c5a9"
+    },
+    {
+      "target": "5D2.212",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.5D2.212.zh-CN.r1-FULL-MODULES-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.5D2.212.zh-CN.r1-FULL-MODULES-TEST-ONLY.zip",
+      "git_blob_sha1": "81d6891b181cf45c2964c46a24371bdf18d16570",
+      "size": 2041689,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.5D2.212.zh-CN.r1-FULL-MODULES-TEST-ONLY.zip",
+      "sha256": "98b1d09f3a92949eb2415928a2e4d1d3a02ccfbe0afc52153ff4ec4a252c564b"
+    },
+    {
+      "target": "5D3.123",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2026-10-27.5D3.123.LANG4-LIVE-r4-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2026-10-27.5D3.123.LANG4-LIVE-r4-TEST-ONLY.zip",
+      "git_blob_sha1": "7db064e8c8f5a9f92c8de04e07d445b1be15918a",
+      "size": 2208324,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2026-10-27.5D3.123.LANG4-LIVE-r4-TEST-ONLY.zip",
+      "sha256": "01c79179014f3529aa643b886108ef1b7f92ab7e8064e2e7e7cdcdcd22d43fd2"
+    },
+    {
+      "target": "600D.102",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.600D.102.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.600D.102.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "git_blob_sha1": "06eeef4d9962fd3f95091d8eada2f4a2ae2e5215",
+      "size": 2017029,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.600D.102.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "sha256": "64bbbec81e7ef27963e0bc6d64aee039f240538e1d347e53d2b0e310902acf08"
+    },
+    {
+      "target": "60D.111",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.60D.111.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.60D.111.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "git_blob_sha1": "f95df306ac49d6e677b51681e2979cb7336d1397",
+      "size": 2023305,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.60D.111.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "sha256": "a975391d796f5c10559fc5a230e123e29a5bc8349721391a162b19a7e2c0b4fd"
+    },
+    {
+      "target": "650D.104",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.650D.104.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.650D.104.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "git_blob_sha1": "a62bfbbe4d981f9e58f61a824f74fbf178593d0d",
+      "size": 2030989,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.650D.104.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "sha256": "3aaf3d5d54590946dbf9a9e2dd06a2d1d188f713d2fc29ab16ad05a79e0f4632"
+    },
+    {
+      "target": "6D.116",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.6D.116.zh-CN.r4-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.6D.116.zh-CN.r4-TEST-ONLY.zip",
+      "git_blob_sha1": "257c9512699d361e57beb2d4be9a00b5ac73eace",
+      "size": 2017554,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.6D.116.zh-CN.r4-TEST-ONLY.zip",
+      "sha256": "c586ead67f2a5df689a7a0e0a5ee62e3a354965f8ddb0f4bedb629ab77f2361f"
+    },
+    {
+      "target": "700D.115",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.700D.115.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.700D.115.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "git_blob_sha1": "c1604f28a7e41517511816fc8e1176309a7f9825",
+      "size": 1998628,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.700D.115.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "sha256": "f418012806572e63d84311470677d82e523d98fbaf1dd1b03954aa6e91f026ed"
+    },
+    {
+      "target": "70D.112",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.70D.112.zh-CN.r3-MEMORY-SAFE-REALCAM-TEST.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.70D.112.zh-CN.r3-MEMORY-SAFE-REALCAM-TEST.zip",
+      "git_blob_sha1": "40a47c5868ebfcb653843c27f4bf8d416e989cfc",
+      "size": 2084565,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.70D.112.zh-CN.r3-MEMORY-SAFE-REALCAM-TEST.zip",
+      "sha256": "7cc8b62d2705766f1185597c2cfa89e1b1726d506fbc386be85c1738b4d86520"
+    },
+    {
+      "target": "7D.203",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2020Dec28.7D.203.zh-CN.r2-CORE-PACKAGING-FIX-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2020Dec28.7D.203.zh-CN.r2-CORE-PACKAGING-FIX-TEST-ONLY.zip",
+      "git_blob_sha1": "afa030c69072bac3272d253a71d9aabe60bb086d",
+      "size": 2010467,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2020Dec28.7D.203.zh-CN.r2-CORE-PACKAGING-FIX-TEST-ONLY.zip",
+      "sha256": "45ed53ef84b8697c506ecbfcd46cda5a1a7b1140bc8662c39380001f69429088"
+    },
+    {
+      "target": "EOSM.202",
+      "kind": "community-distribution",
+      "archive_name": "magiclantern.2025-06-20.EOSM.202.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "source_url": "https://raw.githubusercontent.com/ryulin456/magiclantern-zh/dc3d012aff3ddc0e07df3ceafb9b95dbfdf56f12/\u4e2d\u6587\u7248\u9b54\u706f/magiclantern.2025-06-20.EOSM.202.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "git_blob_sha1": "3ba64beb7a3c6474dbac5c22696b6579f34d8add",
+      "size": 2017813,
+      "recommended_for_installation": false,
+      "local_path": ".cache/distributions/ryulin-dc3d012a/magiclantern.2025-06-20.EOSM.202.zh-CN.r2-FULL-MODULES-TEST-ONLY.zip",
+      "sha256": "278728e553d574606ade11d90d9f99f8a9b66b85504b52cb5c9aaff662069749"
+    },
+    {
+      "target": "EOSM.202",
+      "kind": "official-distribution",
+      "archive_name": "magiclantern.2025-06-20.EOSM.202.zip",
+      "local_path": ".cache/magiclantern.2025-06-20.EOSM.202.zip",
+      "source_url": "https://builds.magiclantern.fm/builds/dev/magiclantern.2025-06-20.EOSM.202.zip",
+      "sha256": "152f2ab46b83f45b978bcb704bda976849aa9d06b08fb70448f69be3ebfc44fb",
+      "recommended_for_installation": false
+    }
+  ],
+  "purpose": "Pinned public distribution inputs for offline export/API audit only; not recommended for installation. No Canon ROMs."
+}

@@ -1,0 +1,280 @@
+{
+  "kind": "incomplete-native-port-research",
+  "model": "70D",
+  "firmware": "1.1.2",
+  "rom1_sha256": "3fe42299deb577b269b6901f40597a1939ac5876f22c8c3a0b6ee47219fdd42e",
+  "native_backend_enabled": false,
+  "capture_window_verified": false,
+  "sensor_ownership_verified": false,
+  "lossless_emulator_experiment": {
+    "revision": "147d913fa455d217190509cd8f090546149d377b",
+    "patch": "qemu-jp57-experiment.patch",
+    "source_directory": "qemu",
+    "test_command": "python scripts/test_qemu_lossless.py --runtime wsl --qemu-run .cache/70d-capture20",
+    "local_receipt": "build/qemu-eos-70d-jp57-final/70D.112-lossless-observation.json",
+    "input_connection": 1,
+    "output_connection": 45,
+    "completion_irq": "0xa3",
+    "precision": 14,
+    "components": 2,
+    "input_bytes_observed": 36130752,
+    "encoded_bytes_observed": 19738944,
+    "canon_lossless_completion_observed": true,
+    "independently_decoded_pixels_verified": 20646144,
+    "independent_sensor_roi_oracle_matches": true,
+    "native_mirrored_raw_verified": false,
+    "completed_canon_cr2_verified": false,
+    "hardware_test": false,
+    "limits": "A reference lossless stream from QEMU-generated sensor pixels. Thumbnail/Eeko development remains incomplete. This does not establish active image bounds, CFA origin, physical timing or buffer ownership."
+  },
+  "stage_emulator_experiment": {
+    "revision": "147d913fa455d217190509cd8f090546149d377b",
+    "patch": "qemu-eeko-color-experiment.patch",
+    "observer": "tools/qemu_70d_native.gdb.py",
+    "local_receipt": "build/qemu-eos-70d-eeko-color/70D.112-native-stage-observation.json",
+    "stage_candidate_execution_verified_in_emulator": true,
+    "stage_context_observed": "0x7c15c",
+    "stage_caller_return_observed": "0xff15c4d0",
+    "stage_source_observed": "0x5ca00064",
+    "stage_job_observed": "0x40e3c064",
+    "stage_cpsr_observed": "0x60000013",
+    "stage_edmac0_flags_observed": "0x20000000",
+    "lossless_descriptor_observed": "0xc1770",
+    "lossless_width_observed": 5568,
+    "lossless_height_observed": 3708,
+    "lossless_precision_observed": 14,
+    "lossless_source1_observed": "0x5ca00064",
+    "lossless_source_offset1_observed": "0x1a932",
+    "observer_integration_passed": true,
+    "native_backend_enabled": false,
+    "limits": "Patched emulator only, no decryption or image processing; same source reaches the lossless input but active image/CFA region, ownership and completed CR2 remain unverified."
+  },
+  "capture_emulator_experiment": {
+    "source": "https://github.com/giogandola98/QEMU-EOS-Optimized",
+    "revision": "147d913fa455d217190509cd8f090546149d377b",
+    "patch": "qemu-capready-experiment.patch",
+    "guide": "emulator-research.md",
+    "local_receipt": "build/qemu-eos-70d-capready/70D.112-capture-observation.json",
+    "module_version_observed": "0.3.0-dev2",
+    "canon_capture_job_created": true,
+    "canon_capready_observed": true,
+    "sensor_input": "QEMU generated dark frame, not physical sensor data",
+    "readout_channel_observed": 0,
+    "readout_connection_observed": 35,
+    "readout_pitch_bytes_observed": 9884,
+    "readout_rows_observed": 3720,
+    "release_gpio": "0xc02200a8",
+    "release_bit": 2,
+    "capready_irq": "0x51",
+    "stage_candidate_execution_verified": false,
+    "completed_cr2_verified": false,
+    "stop": "ShootPreDevelop asserts in System/postman/postman_m.c line 644 during Eeko startup before the proposed stage call.",
+    "limits": "Experimental packet payloads and event timing; Fencing also times out. One synthetic readout does not establish native geometry, buffer ownership, image correctness or camera support."
+  },
+  "stage_candidate": {
+    "pc": "0xff361910",
+    "caller_return_pc": "0xff15c4d0",
+    "context_literal_pc": "0xff15c27c",
+    "context": "0x7c15c",
+    "context_register": 10,
+    "source_register": 0,
+    "job_offset": "0xac",
+    "canon_source_label": "./PreDevelop/PreDevelopState.c"
+  },
+  "rom_guards": {
+    "jp57_interrupt_registration": {
+      "pc": "0xff2bddd4",
+      "words": [
+        "0xe3a010a3",
+        "0xe28f0f8d",
+        "0xea352ce4",
+        "0xe92d4010"
+      ]
+    },
+    "jp57_encoder_parameters": {
+      "pc": "0xff2bf158",
+      "words": [
+        "0xe51f01e8",
+        "0xe5840084",
+        "0xe240000d",
+        "0xe5840088"
+      ]
+    },
+    "color_completion_callback": {
+      "pc": "0xff426130",
+      "words": [
+        "0xe59f0390",
+        "0xe21110ff",
+        "0x13510001",
+        "0xe5900000"
+      ]
+    },
+    "color_request": {
+      "pc": "0xff4261b0",
+      "words": [
+        "0xe3c53101",
+        "0xe3a02b02",
+        "0xe3a01004",
+        "0xe3a00000"
+      ]
+    },
+    "lossless_start_entry": {
+      "pc": "0xff437a80",
+      "words": [
+        "0xe92d43f0",
+        "0xe1a04000",
+        "0xe1a03000",
+        "0xe59f214c"
+      ]
+    },
+    "lossless_source_field": {
+      "pc": "0xff437d58",
+      "words": [
+        "0xe5940058",
+        "0xe3500000",
+        "0x0a00000d",
+        "0xe5940048"
+      ]
+    },
+    "release_event_copy_size": {
+      "pc": "0xff0f2254",
+      "words": [
+        "0xe5d50037",
+        "0xe2800038",
+        "0xeb3d2f42",
+        "0xe5941000"
+      ]
+    },
+    "after_release_event_copy_size": {
+      "pc": "0xff0f23bc",
+      "words": [
+        "0xe5d50028",
+        "0xe2800029",
+        "0xeb3d2ee8",
+        "0xe5941000"
+      ]
+    },
+    "predevelop_stage": {
+      "pc": "0xff361910",
+      "words": [
+        "0xe12fff1e",
+        "0xe3a00000",
+        "0xe12fff1e",
+        "0xe12fff1e"
+      ]
+    },
+    "stage_call_instruction": {
+      "pc": "0xff15c4cc",
+      "words": [
+        "0xeb08150f",
+        "0xe59a402c",
+        "0xe2840d0d",
+        "0xe58d0198"
+      ]
+    },
+    "job_get": {
+      "pc": "0xff2229b0",
+      "words": [
+        "0xe5900000",
+        "0xe5922000",
+        "0xe2811e25",
+        "0xe1500002"
+      ]
+    },
+    "job_set_entry": {
+      "pc": "0xff222964",
+      "words": [
+        "0xe92d4010",
+        "0xe51f36f8",
+        "0xe5902004",
+        "0xe5900000"
+      ]
+    },
+    "two_in_two_out_prepare": {
+      "pc": "0xff42de7c",
+      "words": [
+        "0xe92d407c",
+        "0xe51f5edc",
+        "0xe1a04000",
+        "0xe5950004"
+      ]
+    },
+    "two_in_two_out_start": {
+      "pc": "0xff42df24",
+      "words": [
+        "0xe92d4070",
+        "0xe1a05000",
+        "0xe51f0f88",
+        "0xe3a04000"
+      ]
+    },
+    "two_in_two_out_prepare_jpeg": {
+      "pc": "0xff42deec",
+      "words": [
+        "0xe92d4070",
+        "0xe1a05000",
+        "0xe51f0f50",
+        "0xe3a04000"
+      ]
+    }
+  },
+  "limitations": [
+    "Addresses are static research anchors, not a native backend or a buffer-write lease.",
+    "The compression anchors match four instructions and nearby Canon source labels, but their relation to active 70D capture is unverified.",
+    "The stage and getter/setter anchors are tied by static caller analysis; execution during a captured photo is unverified.",
+    "The 70D context job offset is 0xac; the tested EOSM context uses 0xb4.",
+    "RAW/SSS/JPEG source descriptors, transfer geometry, readout completion and competing consumers remain unverified."
+  ],
+  "arm_probe_experiment": {
+    "status": "isolated ARM transform verified in Canon-saved simulated CR2s; main mirror.mo backend not integrated",
+    "module_source": "research/m70raw.c",
+    "contract": "research/raw_contract.h",
+    "builder": "tools/build_70d_research.py",
+    "controller": "tools/qemu_70d_raw_probe.gdb.py",
+    "qemu_revision": "147d913fa455d217190509cd8f090546149d377b",
+    "patch": "qemu-cr2-repeat-experiment.patch",
+    "local_receipt": "build/70d-native-probe/70D.112-probe-observation.json",
+    "test_command": "python scripts/test_70d_raw_probe.py --runtime wsl --qemu-run .cache/70d-capture27/read-only --qemu-run .cache/70d-capture28/right-half --qemu-run .cache/70d-capture28/all-thirds --refused-run .cache/70d-capture26",
+    "emulated_readout": {
+      "width": 5648,
+      "height": 3720,
+      "pitch": 9884,
+      "bytes": 36768480,
+      "origin_from_stage_source": 9884,
+      "flags": "0x20000000",
+      "xa": 9884,
+      "xb": 9884,
+      "xn": 3719,
+      "yb": 0,
+      "ya": 0,
+      "yn": 0
+    },
+    "compression_window_in_readout": {
+      "left": 72,
+      "top": 10,
+      "width": 5568,
+      "height": 3708
+    },
+    "canon_crop_in_readout": {
+      "left": 156,
+      "top": 60,
+      "width": 5472,
+      "height": 3648
+    },
+    "completed_canon_cr2_probe_shots": 3,
+    "mirrored_probe_shots": 2,
+    "decoded_pixels_checked_per_shot": 20646144,
+    "calibration_margin_pixels_preserved": 684288,
+    "two_mirrored_shots_in_one_boot": true,
+    "monitored_consumer_overlaps": 0,
+    "main_mirror_module_native_backend_tested": false,
+    "native_backend_enabled": false,
+    "hardware_test": false,
+    "remaining": [
+      "Integrate camera-specific bindings and consumer metadata in mirror.mo.",
+      "Exercise the normal preview/full-shutter latch and all supported settings.",
+      "Verify cancellation/shutdown and remaining ownership/consumer cases.",
+      "Owner hardware validation and separate eligible-camera ports."
+    ]
+  }
+}

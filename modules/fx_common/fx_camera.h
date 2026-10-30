@@ -25,6 +25,7 @@
 #define fx_capture_scratch_configure FX(capture_scratch_configure)
 #define fx_capture_scratch_acquire FX(capture_scratch_acquire)
 #define fx_capture_scratch_release FX(capture_scratch_release)
+#define fx_capture_scratch_ready FX(capture_scratch_ready)
 extern int FX(active);
 typedef struct {
     unsigned running, frames, discarded, half, frozen, error, render_ms, interval_ms;
@@ -51,18 +52,22 @@ int fx_native_capture_mode(void);
 int fx_private_cpu_heap_mode(void);
 typedef struct {void *data;size_t size;unsigned generation;} fx_capture_scratch;
 /* Optional native, non-temporal capture support. Configure before start only.
- * Allocate max(preview canvas, bytes), reusing that canvas during capture.
+ * Allocate a separate tail of 'bytes' after the preview canvas in its existing
+ * private allocation. The tail can be leased while preview rendering continues.
  * The normal allocator and 1.5 MiB reserve still apply; zero disables borrowing.
  * No module opts in automatically. These calls neither access Canon sensor
  * memory nor establish its ownership, coherence or a processing deadline. */
 int fx_capture_scratch_configure(size_t bytes);
-/* Nonblocking, no allocation/IO: acquire only between renders/preparations,
- * after a delivered frame. Failure leaves out unchanged. A successful lease
- * invalidates committed preview pixels and excludes even stale filter calls.
+/* Nonblocking, no allocation/IO: acquire only after a delivered valid frame.
+ * Failure leaves out unchanged. A lease never overlaps preview pixels or the
+ * renderer's map, so renders/preparations may continue while it is held.
  * Keep the returned token private; release exactly that lease after all users
  * finish. Stop/shutdown retains the arena and family claim until release.
  * This is preview-memory ownership only, not a Canon sensor-buffer lease. */
 int fx_capture_scratch_acquire(fx_capture_scratch *out);
+/* True after any in-flight preview render/preparation has finished. Native
+ * processing calls this after Canon LV exit, before using its private tail. */
+int fx_capture_scratch_ready(const fx_capture_scratch *lease);
 int fx_capture_scratch_release(const fx_capture_scratch *lease);
 int fx_start(void);
 void fx_service(void);
