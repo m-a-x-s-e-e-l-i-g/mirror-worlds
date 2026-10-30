@@ -12,6 +12,8 @@ jobs:
         with:
           node-version: '22'
       - run: python scripts/verify_release.py
+      - run: python -m pip install numpy
+      - run: python -B -m unittest discover -s tests -p 'test_*.py'
       - run: node --test scripts/site.test.mjs
       - run: node --check site/app.js
       - run: python scripts/build_site.py

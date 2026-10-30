@@ -1,4 +1,4 @@
-# Mirror Worlds 0.2.0
+# Mirror Worlds 0.3.0
 
 By **Max Seelig (MAXmade)**. Original Canon EOS M / firmware **2.0.2** /
 Magic Lantern dev **2025-06-20**, source `ed3e7c0`.
@@ -68,23 +68,34 @@ preferences, not diagnostic logs; you do not need to manage them. The previous
 valid slot survives an interrupted new save. Global ML autosave settings and
 other modules' preferences are not changed.
 
-Native Canon RAW uses complete Bayer cells, so border boundaries are rounded
-by at most a cell. Sensor margins and optical black pixels remain unchanged.
+Native Canon RAW copies original samples without averaging. Fold axes sit on
+sensor rows/columns to preserve both fine detail and Bayer color alignment;
+they differ by half a sensor pixel from a between-pixel reflection. Processing
+covers the full visible RAW image, including pixels outside Canon's smaller
+JPEG crop. Optical-black rows and columns remain unchanged.
 More mirrored area may take longer to process. Single shots are supported;
 continuous drive, remote triggers, video and long exposures are outside this
 release's workflow.
 
-If capture reports **Capture unavailable**, turn Live effect OFF/ON to retry or
+Wait for **ON - Ready**, half-press to focus, then press fully to take a photo.
+Mirrored LiveView continues during focusing. If capture reports **Capture
+stopped**, retain its number/help text, turn Live effect OFF/ON to retry, or
 restart. A rejected capture may remain unmirrored; the module stops instead of
 silently continuing. The complete fold finishes once sensor writing has begun.
 Power OFF before replacing/removing the module; runtime hooks remain until then.
 
 ## Verification
 
-All placements and border sizes pass independent preview and packed RAW pixel
-oracles locally. The actual capture callback passes all 44 usable combinations
-on a full-sized synthetic sensor, with automatic repeat and no diagnostic IO.
-The actual menu/persistence code passes restart and write-fault checks. ARM
-execution checks cover pixels, bounds and saved registers. These checks do not
-replace the camera acceptance you will perform for the new modes. The prior
-centered full-image capture was already accepted on this EOS M in dev16.
+The EOS M owner accepted the dev14 candidate's capture and image quality for
+this release. Version 0.3.0 retains its processing code with a release version
+label. Independent tests compare all 44 layouts against exact original samples
+on full-sized synthetic RAW frames. Separate color-registration and ARM tests
+check the fold geometry, packed pixels, bounds, cancellation and module
+lifecycle. These automated results do not mean all camera modes were tested.
+
+The original EOS M is the only camera-tested native RAW target. The same
+module contains experimental LiveView-only profiles for additional cameras;
+their saved photos remain original, and they have not been hardware validated.
+Use the existing Magic Lantern core for your exact model/firmware. Older API-7
+cores cannot load this API-8 release. See the repository's camera compatibility
+guide before trying it on another camera.

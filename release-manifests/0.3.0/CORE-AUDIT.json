@@ -1,0 +1,3115 @@
+{
+  "kind": "local-ml-core-builds",
+  "revision": "142472e95054d73640f50789ac0fd66325499d82",
+  "source_archive_sha256": "1df535ea6ce46883ec8b8d8d3462980447372f5040c38ef385c8199a2e4c6f9f",
+  "compiler": "arm-none-eabi-gcc (15:13.2.rel1-2) 13.2.1 20231009",
+  "fatal_warnings": false,
+  "canon_firmware_booted": false,
+  "targets": [
+    {
+      "target": "EOSM.202",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "9072fb5bbe047f17310c366fa38ad67c1a3923a0a39605c54bdae60c79694b28",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/EOSM.202",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "fdfe89bbecd85f3fd95b6a7e9ae6dd296b5756481b184ae79bffa4ea9c2c9b29",
+      "core_elf_sha256": "318e185b758c21a6ce5cad720efea3f234bb0ee02f8983c59b7cdd93452c8b2d",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "fdfe89bbecd85f3fd95b6a7e9ae6dd296b5756481b184ae79bffa4ea9c2c9b29",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "fdfe89bbecd85f3fd95b6a7e9ae6dd296b5756481b184ae79bffa4ea9c2c9b29",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "5D2.212",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "d784a1928cd9fb84539009aecab3369812c407a181a42050284032c6e94bc5ce",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/5D2.212",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "7bc768f92c3ab5c28dc5204bf6d13f651744084c5768b6491e9ea1db73bd59ce",
+      "core_elf_sha256": "17b17610a8069085995e1d9db5510be4d1983c7aeea94f56e160a887cbe3107e",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "7bc768f92c3ab5c28dc5204bf6d13f651744084c5768b6491e9ea1db73bd59ce",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "7bc768f92c3ab5c28dc5204bf6d13f651744084c5768b6491e9ea1db73bd59ce",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "5D3.113",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "55969555c3e93f6f92c8a1c2cf350489ae88bdfa5f6c45189af8545ecdde615e",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/5D3.113",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "df5ebb95f2a530fb8fe49141ae8295547d77f850f714895db93ab03d3c95b4c7",
+      "core_elf_sha256": "7ca43f5c108c85c976217ac7da2efaefb7541a8297da5446805835b16983d7d2",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "df5ebb95f2a530fb8fe49141ae8295547d77f850f714895db93ab03d3c95b4c7",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "df5ebb95f2a530fb8fe49141ae8295547d77f850f714895db93ab03d3c95b4c7",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "5D3.123",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "d30cabf2bff0bf555f42a32c1b4610078076827c0fddab27de189b72486b7a2c",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/5D3.123",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "7192ccb2ca2b6e8dfa296d742269825adeec0bbf92044016485e330d17bb2c4d",
+      "core_elf_sha256": "c8fec2ce6b6f76903efa4f7d24a63bc5fe1439f13114593aa7e987abd2ae4e52",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "7192ccb2ca2b6e8dfa296d742269825adeec0bbf92044016485e330d17bb2c4d",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "7192ccb2ca2b6e8dfa296d742269825adeec0bbf92044016485e330d17bb2c4d",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "6D.116",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "3e1fe617ed71ace4ff64ed2b0d3e5ac2441cac846c5657afe138a42fcda8a16c",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/6D.116",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "e0ce0d80b3ff9188ac4104ca33395f399630c01a28ab43631475f34d28b63365",
+      "core_elf_sha256": "fe5f2f91e1ca838b79a4edf12a9976e8e7144f7b7eac851339c8779d4c105e4a",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "e0ce0d80b3ff9188ac4104ca33395f399630c01a28ab43631475f34d28b63365",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "e0ce0d80b3ff9188ac4104ca33395f399630c01a28ab43631475f34d28b63365",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "7D.203",
+      "build_result": "failed",
+      "exit_code": 2,
+      "log_sha256": "810131690e7d5ddca5105ce82223632ec47ed7a982c1addfc65ba2ecc55aa1ef",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/7D.203",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym",
+        "-f",
+        "Makefile.platform.default",
+        "-f",
+        "Makefile",
+        "FW_VERSION=203",
+        "TOP_DIR=../.."
+      ],
+      "supplied_legacy_defaults": true,
+      "reused_hash_verified_core": true
+    },
+    {
+      "target": "50D.109",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "71097e09ac2c47f63afe806583f19fb49f40b0663d21d973a6bef475d62bb829",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/50D.109",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "28320ce96fad4b97d6043f2c208e476e4803212a552182bfa2e29ef44ee42c03",
+      "core_elf_sha256": "65e88b434e4e9826ceecc2c9dce5a958e53c1b1973790039ab461e423a28cc3e",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "28320ce96fad4b97d6043f2c208e476e4803212a552182bfa2e29ef44ee42c03",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "28320ce96fad4b97d6043f2c208e476e4803212a552182bfa2e29ef44ee42c03",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "60D.111",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "593464505f41d12973a9c1c9a509edbe9fb58b87e08e95827801c4b2a3ac8f6b",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/60D.111",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "66c6e3c19a6a8bd710c2205716f8c79bf32ee49b034d900557193baf1fb18b58",
+      "core_elf_sha256": "bb356a756faf0b6575065205ab7b682366187a045ed6dd8a342ebfd2e113654c",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "66c6e3c19a6a8bd710c2205716f8c79bf32ee49b034d900557193baf1fb18b58",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "66c6e3c19a6a8bd710c2205716f8c79bf32ee49b034d900557193baf1fb18b58",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "70D.112",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "a24d0b75e560db733299601c738421e95cda1425d25e772798321cf1c0a15b36",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/70D.112",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "f759e9ce1d0a33f23bbac8960b30ce4d279f263b1354c689843ad5c9eb948951",
+      "core_elf_sha256": "09484161feb1def7e079040defef675de9cc445c4d1c91f7dec651d59e22b0a0",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "f759e9ce1d0a33f23bbac8960b30ce4d279f263b1354c689843ad5c9eb948951",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "f759e9ce1d0a33f23bbac8960b30ce4d279f263b1354c689843ad5c9eb948951",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "100D.101",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "b5490dd36f273d11fc1f8c3e46447e5bc14666fa7818a4a7cd59eb8d8a8ee744",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/100D.101",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "48f0f17a19649d1fa670342129763c4ed4afb1d98870e53cdf20004743dd9b90",
+      "core_elf_sha256": "67dba6e2897768e3028ac5abf30bbb6c21ae0ed208929b90f5f1b0db31e90db7",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "48f0f17a19649d1fa670342129763c4ed4afb1d98870e53cdf20004743dd9b90",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "48f0f17a19649d1fa670342129763c4ed4afb1d98870e53cdf20004743dd9b90",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "550D.109",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "c52ea18ee5e341d3c2934c58615689a7ee8c0d6e1c9928b86ee34f7ef1610a08",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/550D.109",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "bf134435c47d20957323c1ac8f2b37aa8e7e6c681e0b45f7837fb117b8756569",
+      "core_elf_sha256": "8c4ada6295c6a3dc7972b4356d268eb0ece9708505389bac705af4d0e2c157d5",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "bf134435c47d20957323c1ac8f2b37aa8e7e6c681e0b45f7837fb117b8756569",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "bf134435c47d20957323c1ac8f2b37aa8e7e6c681e0b45f7837fb117b8756569",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "600D.102",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "fb94ef28f3ac8bdfb20ad1f4a9ca5cb3bbf42818cff33e3f5d5d8943584467cd",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/600D.102",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "c800ae5a6f2e499f46cd259a9a12f97f1cfb2118e1f54328cef7f6b7cfe984f8",
+      "core_elf_sha256": "5adba4960bf236ff12aa81f2979d3fa7e79421b325a0ca31eca2ad228450a965",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "c800ae5a6f2e499f46cd259a9a12f97f1cfb2118e1f54328cef7f6b7cfe984f8",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "c800ae5a6f2e499f46cd259a9a12f97f1cfb2118e1f54328cef7f6b7cfe984f8",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "650D.104",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "8436b8c527362a03736344f5d3454acf3bde3e7797a1fed1ef5f5430bba96995",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/650D.104",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "e2aa1ecf13c7ab01ce1e55bdea16551a1040615273a0a7cd2f1cba6c9047bccd",
+      "core_elf_sha256": "8d848053da73e0d5a3fa80c989a5bc31e699c88e04e3b203e166c2c4f36552af",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "e2aa1ecf13c7ab01ce1e55bdea16551a1040615273a0a7cd2f1cba6c9047bccd",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "e2aa1ecf13c7ab01ce1e55bdea16551a1040615273a0a7cd2f1cba6c9047bccd",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "700D.115",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "573fbf25c40868492c16d597229b9b16f680769438d022aca0495176fb80c5c9",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/700D.115",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "0da45b6771c23fc8be364555bf7b7057c9ee8f6c3907aa6e0fddce0498c719b7",
+      "core_elf_sha256": "9e66fd26d39ff5980cd9a744ae94ac0ece9c06c7b444401934e3c7372fa29ebe",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "0da45b6771c23fc8be364555bf7b7057c9ee8f6c3907aa6e0fddce0498c719b7",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "0da45b6771c23fc8be364555bf7b7057c9ee8f6c3907aa6e0fddce0498c719b7",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    },
+    {
+      "target": "1100D.105",
+      "build_result": "passed",
+      "exit_code": 0,
+      "log_sha256": "c6b8019782d84e7fc155b87e01a1b1e044e37ee6f7c3e1de0e8a52ab0d915fd5",
+      "command": [
+        "make",
+        "-C",
+        "/home/max/.cache/mirror-worlds/ml-cores-1df535ea6ce46883/platform/1100D.105",
+        "-j4",
+        "FATAL_WARNINGS=n",
+        "build/magiclantern.sym"
+      ],
+      "supplied_legacy_defaults": false,
+      "symbol_table_sha256": "1f9555ef9993ed08a856cd4ab35390bb0a058fc8a024636c089db0d11a96638e",
+      "core_elf_sha256": "4334c5dd889e0b9030da269a3e521732d0652bd838ad774851a222c0daaec268",
+      "core_layouts": {
+        "config_var": {
+          "fields": {
+            "value": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        },
+        "display_filter_buffers": {
+          "fields": {
+            "dst_buf": [
+              32,
+              0,
+              4
+            ],
+            "src_buf": [
+              0,
+              0,
+              4
+            ]
+          },
+          "size": 8
+        },
+        "lens_info": {
+          "fields": {
+            "job_state": [
+              736,
+              0,
+              4
+            ]
+          },
+          "size": 168
+        },
+        "menu_display_info": {
+          "fields": {
+            "enabled": [
+              224,
+              0,
+              4
+            ],
+            "help": [
+              128,
+              0,
+              4
+            ],
+            "value": [
+              32,
+              0,
+              4
+            ],
+            "warning": [
+              160,
+              0,
+              4
+            ],
+            "warning_level": [
+              320,
+              0,
+              1
+            ]
+          },
+          "size": 60
+        },
+        "menu_entry": {
+          "fields": {
+            "children": [
+              64,
+              0,
+              4
+            ],
+            "choices": [
+              288,
+              0,
+              4
+            ],
+            "help": [
+              448,
+              0,
+              4
+            ],
+            "max": [
+              256,
+              0,
+              4
+            ],
+            "min": [
+              224,
+              0,
+              4
+            ],
+            "name": [
+              160,
+              0,
+              4
+            ],
+            "priv": [
+              192,
+              0,
+              4
+            ],
+            "select": [
+              320,
+              0,
+              4
+            ],
+            "selected": [
+              416,
+              1,
+              4
+            ],
+            "update": [
+              384,
+              0,
+              4
+            ]
+          },
+          "size": 88
+        },
+        "vram_info": {
+          "fields": {
+            "height": [
+              96,
+              0,
+              4
+            ],
+            "pitch": [
+              64,
+              0,
+              4
+            ],
+            "vram": [
+              0,
+              0,
+              4
+            ],
+            "width": [
+              32,
+              0,
+              4
+            ]
+          },
+          "size": 16
+        }
+      },
+      "reused_hash_verified_core": true,
+      "candidate_audits": {
+        "legacy": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "1f9555ef9993ed08a856cd4ab35390bb0a058fc8a024636c089db0d11a96638e",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        },
+        "upstream": {
+          "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+          "symbol_table_sha256": "1f9555ef9993ed08a856cd4ab35390bb0a058fc8a024636c089db0d11a96638e",
+          "imports_checked": 61,
+          "missing_imports": [],
+          "result": "imports_resolve",
+          "module_load_verified": false,
+          "native_capture_verified": false,
+          "checked_struct_layouts": {
+            "result": "checked_layouts_match",
+            "differences": [],
+            "structs_checked": 6,
+            "fields_checked": 23,
+            "evidence_limit": "Only the listed shared fields and struct sizes; not a general ABI or runtime validation."
+          }
+        }
+      }
+    }
+  ],
+  "candidate_layouts": {
+    "legacy": {
+      "config_var": {
+        "fields": {
+          "value": [
+            32,
+            0,
+            4
+          ]
+        },
+        "size": 16
+      },
+      "display_filter_buffers": {
+        "fields": {
+          "dst_buf": [
+            32,
+            0,
+            4
+          ],
+          "src_buf": [
+            0,
+            0,
+            4
+          ]
+        },
+        "size": 8
+      },
+      "lens_info": {
+        "fields": {
+          "job_state": [
+            736,
+            0,
+            4
+          ]
+        },
+        "size": 168
+      },
+      "menu_display_info": {
+        "fields": {
+          "enabled": [
+            224,
+            0,
+            4
+          ],
+          "help": [
+            128,
+            0,
+            4
+          ],
+          "value": [
+            32,
+            0,
+            4
+          ],
+          "warning": [
+            160,
+            0,
+            4
+          ],
+          "warning_level": [
+            320,
+            0,
+            1
+          ]
+        },
+        "size": 60
+      },
+      "menu_entry": {
+        "fields": {
+          "children": [
+            64,
+            0,
+            4
+          ],
+          "choices": [
+            288,
+            0,
+            4
+          ],
+          "help": [
+            448,
+            0,
+            4
+          ],
+          "max": [
+            256,
+            0,
+            4
+          ],
+          "min": [
+            224,
+            0,
+            4
+          ],
+          "name": [
+            160,
+            0,
+            4
+          ],
+          "priv": [
+            192,
+            0,
+            4
+          ],
+          "select": [
+            320,
+            0,
+            4
+          ],
+          "selected": [
+            416,
+            1,
+            4
+          ],
+          "update": [
+            384,
+            0,
+            4
+          ]
+        },
+        "size": 88
+      },
+      "vram_info": {
+        "fields": {
+          "height": [
+            96,
+            0,
+            4
+          ],
+          "pitch": [
+            64,
+            0,
+            4
+          ],
+          "vram": [
+            0,
+            0,
+            4
+          ],
+          "width": [
+            32,
+            0,
+            4
+          ]
+        },
+        "size": 16
+      }
+    },
+    "upstream": {
+      "config_var": {
+        "fields": {
+          "value": [
+            32,
+            0,
+            4
+          ]
+        },
+        "size": 16
+      },
+      "display_filter_buffers": {
+        "fields": {
+          "dst_buf": [
+            32,
+            0,
+            4
+          ],
+          "src_buf": [
+            0,
+            0,
+            4
+          ]
+        },
+        "size": 8
+      },
+      "lens_info": {
+        "fields": {
+          "job_state": [
+            736,
+            0,
+            4
+          ]
+        },
+        "size": 168
+      },
+      "menu_display_info": {
+        "fields": {
+          "enabled": [
+            224,
+            0,
+            4
+          ],
+          "help": [
+            128,
+            0,
+            4
+          ],
+          "value": [
+            32,
+            0,
+            4
+          ],
+          "warning": [
+            160,
+            0,
+            4
+          ],
+          "warning_level": [
+            320,
+            0,
+            1
+          ]
+        },
+        "size": 60
+      },
+      "menu_entry": {
+        "fields": {
+          "children": [
+            64,
+            0,
+            4
+          ],
+          "choices": [
+            288,
+            0,
+            4
+          ],
+          "help": [
+            448,
+            0,
+            4
+          ],
+          "max": [
+            256,
+            0,
+            4
+          ],
+          "min": [
+            224,
+            0,
+            4
+          ],
+          "name": [
+            160,
+            0,
+            4
+          ],
+          "priv": [
+            192,
+            0,
+            4
+          ],
+          "select": [
+            320,
+            0,
+            4
+          ],
+          "selected": [
+            416,
+            1,
+            4
+          ],
+          "update": [
+            384,
+            0,
+            4
+          ]
+        },
+        "size": 88
+      },
+      "vram_info": {
+        "fields": {
+          "height": [
+            96,
+            0,
+            4
+          ],
+          "pitch": [
+            64,
+            0,
+            4
+          ],
+          "vram": [
+            0,
+            0,
+            4
+          ],
+          "width": [
+            32,
+            0,
+            4
+          ]
+        },
+        "size": 16
+      }
+    }
+  },
+  "evidence_limit": "Locally built pinned ML cores, not shipped/installed builds. Resolved symbol names do not establish ABI compatibility, module loading, RAW ownership or hardware support."
+}

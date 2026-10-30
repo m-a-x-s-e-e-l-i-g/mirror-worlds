@@ -1,0 +1,28 @@
+{
+  "source_url": "https://builds.magiclantern.fm/",
+  "scope_source": "Official downloads list supplied by the project owner on 2026-10-23",
+  "support_requirement": "Only support official models whose Magic Lantern port provides LiveView effects. A missing source port is unresolved, not proof of ineligibility.",
+  "models": [
+    {"model": "100D", "qemu": "100D"},
+    {"model": "1100D", "qemu": "1100D"},
+    {"model": "1200D", "qemu": "1200D"},
+    {"model": "200D", "qemu": "200D"},
+    {"model": "500D", "qemu": "500D"},
+    {"model": "50D", "qemu": "50D"},
+    {"model": "550D", "qemu": "550D"},
+    {"model": "5D2", "qemu": "5D2"},
+    {"model": "5D3", "qemu": "5D3"},
+    {"model": "5DC", "qemu": "5D"},
+    {"model": "600D", "qemu": "600D"},
+    {"model": "60D", "qemu": "60D"},
+    {"model": "650D", "qemu": "650D"},
+    {"model": "6D", "qemu": "6D"},
+    {"model": "6D2", "qemu": "6D2"},
+    {"model": "700D", "qemu": "700D"},
+    {"model": "70D", "qemu": "70D"},
+    {"model": "750D", "qemu": "750D"},
+    {"model": "7D", "qemu": "7D"},
+    {"model": "7D2", "qemu": "7D2"},
+    {"model": "EOSM", "qemu": "EOSM"}
+  ]
+}

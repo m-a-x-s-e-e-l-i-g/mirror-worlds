@@ -13,7 +13,7 @@ SYMBOL_MEMBER = "ML/modules/EOSM_202.sym"
 SYMBOL_SHA256 = "d9ac74b62303e149ccf9b636e9dfd5fb24bc26506660b4b0638acbb51715fb88"
 
 
-def inspect_module(data, module_name=None):
+def inspect_module(data, module_name=None, *, api_major=8):
     if len(data) < 52 or data[:7] != b"\x7fELF\x01\x01\x01":
         raise ValueError("Module must be ELF32 little-endian")
     header = struct.unpack_from("<16sHHIIIIIHHHHHH", data)
@@ -28,6 +28,12 @@ def inspect_module(data, module_name=None):
 
     def section_bytes(index):
         s = sections[index]
+        # SHT_NOBITS occupies memory, not file bytes. Empty callback/property
+        # tables can legitimately live here; bytes at sh_offset are unrelated.
+        if s[1] == 8:
+            if s[5] > 64 * 1024 * 1024:
+                raise ValueError("Module zero-fill section exceeds audit limit")
+            return bytes(s[5])
         if s[4] + s[5] > len(data): raise ValueError("ELF section exceeds file")
         return data[s[4]:s[4] + s[5]]
 
@@ -58,7 +64,7 @@ def inspect_module(data, module_name=None):
     if any(name not in definitions for name in required): raise ValueError("Missing ML module metadata")
     section, offset, size = definitions["__module_info_" + module_name]
     info = section_bytes(section)[offset:offset + size]
-    if len(info) < 4 or info[:3] != bytes((0x5A, 8, 0)):
+    if api_major not in (7, 8) or len(info) < 4 or info[:3] != bytes((0x5A, api_major, 0)):
         raise ValueError("Unexpected Magic Lantern module API")
     relocations = set()
     pointers = {}

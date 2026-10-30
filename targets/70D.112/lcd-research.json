@@ -1,0 +1,110 @@
+{
+  "kind": "experimental-emulator-development-bindings",
+  "model": "70D",
+  "firmware": "1.1.2",
+  "rom1_sha256": "3fe42299deb577b269b6901f40597a1939ac5876f22c8c3a0b6ee47219fdd42e",
+  "native_backend_enabled": false,
+  "hardware_test": false,
+  "anchors": {
+    "lcd_parameter_box": {
+      "rom_address": "0xff41e6b8",
+      "bytes": "f0472de90040a0e1180090e50070a0e3"
+    },
+    "lcd_send_b00": {
+      "rom_address": "0xff41e9b4",
+      "bytes": "0131c0e30010a0e30b2ca0e30100a0e1"
+    },
+    "lcd_reply_b03": {
+      "rom_address": "0xff41e9fc",
+      "bytes": "70402de92104a0e10b0050e30260a0e1"
+    },
+    "lcd_completion": {
+      "rom_address": "0xff16c7ac",
+      "bytes": "fc412de99c721fe50040a0e12c0097e5"
+    },
+    "thumbnail_parameter_box": {
+      "rom_address": "0xff41dec4",
+      "bytes": "f0402de90050a0e1100090e524d04de2"
+    },
+    "thumbnail_reply_c01": {
+      "rom_address": "0xff41e04c",
+      "bytes": "70402de9011182e3044091e5005091e5"
+    },
+    "thumbnail_start_c03": {
+      "rom_address": "0xff41e170",
+      "bytes": "38402de90130a0e30040a0e10020a0e3"
+    },
+    "packmem_pop": {
+      "rom_address": "0xff641e84",
+      "bytes": "70402de90040a0e1c71c27eb2c0054e3"
+    },
+    "eeko_lcd_result_rom": {
+      "rom_address": "0xffb73894",
+      "bytes": "30b44d4cc4e905232161022163680246"
+    },
+    "eeko_lcd_send_b03_rom": {
+      "rom_address": "0xffb7396a",
+      "bytes": "e0220c2019a102f03dfd0446f9f7ebfe"
+    },
+    "eeko_lcd_geometry_rom": {
+      "rom_address": "0xffb6d3dc",
+      "bytes": "40f6406b41f2605a012806d0032870d1"
+    },
+    "eeko_thumbnail_result_rom": {
+      "rom_address": "0xffb737c4",
+      "bytes": "30b42b4c251d0ec52368042130bc0246"
+    },
+    "eeko_thumbnail_send_c01_rom": {
+      "rom_address": "0xffb7382e",
+      "bytes": "d1220c2012a102f0dbfd0446f8f778fd"
+    }
+  },
+  "lcd": {
+    "request": [
+      "0xb00",
+      "0xb01"
+    ],
+    "reply": "0xb03",
+    "result": [
+      "jpeg_bytes",
+      "status",
+      "reserved"
+    ],
+    "observed_chunk_count": 8,
+    "synthetic_jpeg_dimensions": [
+      5472,
+      3648
+    ]
+  },
+  "thumbnail": {
+    "request": [
+      "0xc00",
+      "0xc01",
+      "0xc03"
+    ],
+    "reply": "0xc01",
+    "result": [
+      "jpeg_bytes",
+      "status",
+      "reserved"
+    ],
+    "observed_chunk_count": 1,
+    "observed_chunk_bytes": 65536,
+    "placeholder_jpeg_dimensions": [
+      160,
+      120
+    ]
+  },
+  "output_pop": {
+    "channel": 22,
+    "connection": 45,
+    "flags_low_nibble": 6,
+    "interrupt_reason": 4
+  },
+  "limits": [
+    "Eeko ROM anchors are file addresses, not asserted runtime addresses.",
+    "Preview and thumbnail are synthetic flat grayscale; no RAW development or colour processing.",
+    "Only the observed first full-RAW configuration is modeled.",
+    "CR2 decoder crop and CFA metadata do not establish a writable sensor interval or physical-camera behavior."
+  ]
+}

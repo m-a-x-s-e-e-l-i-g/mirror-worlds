@@ -34,4 +34,4 @@ The playground's sample scene is AI-generated and clearly labelled as an illustr
 
 See [visual credits](../site/assets/CREDITS.md). Fonts are self-hosted under their included SIL Open Font Licenses.
 
-The site’s download links serve the same immutable 0.2.0 ZIP and module as the GitHub release. Run `python scripts/verify_release.py` before changing release files.
+The site’s download links serve the same immutable 0.3.0 ZIP and module as the GitHub release. Version 0.2.0 remains available unchanged. Run `python scripts/verify_release.py` to check both releases.

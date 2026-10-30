@@ -4,9 +4,13 @@ Mirror Worlds
 :Author: Max Seelig (MAXmade)
 :License: GPL-2.0-or-later
 :Summary: Live edge reflections and native mirrored Canon RAW
-:Version: 0.2.0
+:Version: 0.3.0
 
-Original EOS M, Canon 2.0.2, ML dev 2025-06-20 (ed3e7c0).
+Development candidate; new camera testing required.
+Native RAW backend: original EOS M, Canon 2.0.2.
+Other eligible cameras: LiveView preview only; photos stay original.
+See docs/portability.md in the source repository for the candidate list.
+Unknown models/firmware refuse initialization before starting a task.
 
 Shooting
 --------
@@ -16,7 +20,8 @@ Native 1x LCD and Global Draw ON.
 Shoot / Mirror Worlds: open the controls submenu.
 Enable Live effect, choose your edges and sizes, close the menu.
 Compose and use the physical shutter. Release between photos.
-Canon saves mirrored CR2 and handles quick review and Play.
+On EOS M 2.0.2, Canon saves mirrored CR2 and handles quick review and Play.
+On preview-only cameras, the menu says Preview only and RAW stays original.
 Capture rearms automatically; no test actions or menu export.
 
 Mirror on
@@ -63,7 +68,7 @@ Do not dynamically unload or replace the running module.
 Capture protection
 ------------------
 
-Pinned firmware/caller/source/DMA checks remain active.
+Runtime-selected firmware/caller/source/DMA checks remain active.
 A capture fault stops the effect; switch OFF/ON to retry.
 A rejected capture can remain unmirrored.
 Once writing begins, the complete fold finishes.

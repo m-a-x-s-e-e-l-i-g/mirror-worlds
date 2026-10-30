@@ -1,0 +1,61 @@
+{
+  "kind": "completion-only-fencing-research",
+  "model": "70D",
+  "firmware": "1.1.2",
+  "rom1_sha256": "3fe42299deb577b269b6901f40597a1939ac5876f22c8c3a0b6ee47219fdd42e",
+  "hardware_test": false,
+  "native_backend_enabled_in_normal_module": false,
+  "environment": "QEMU_EOS_FENCING_RESEARCH=1",
+  "interrupts": {
+    "FB": {
+      "irq": 208,
+      "callback": "0xff42e134",
+      "start": "0xc0f1b300=1",
+      "completion_delay_dma_ticks": 5
+    },
+    "FC": {
+      "irq": 209,
+      "callback": "0xff42e0d0",
+      "start": "0xc0f1b340=8",
+      "completion_delay_dma_ticks": 314
+    }
+  },
+  "anchors": {
+    "0xff42e134": "10402de97e2f8fe20310a0e31600a0e3",
+    "0xff42e0d0": "10402de9212e8fe20310a0e31600a0e3",
+    "0xff2c1b1c": "10402de974429fe50010a0e30400a0e1",
+    "0xff2c1b4c": "58029fe50810a0e314eaffea10402de9"
+  },
+  "completion_delay_rule": "floor(bytes * 1000000 / (200 * 1024 * 1024) / 256) + 2, after the existing DMA interrupt at floor(...) + 1; emulator scheduling only",
+  "limits": [
+    "Completion-only model for the one observed DMA configuration.",
+    "FB output remains the emulator existing dummy data.",
+    "No FB/FC image processing, Canon LiveView stream or physical-camera timing proof.",
+    "Module shutter and processing deadlines are unchanged."
+  ],
+  "dma": {
+    "read_connection": 14,
+    "read_channel": 12,
+    "read_flags": "0x40050000",
+    "write_connection": 23,
+    "write_channel": 16,
+    "completed_write_flags": 0,
+    "FB": {
+      "input_bytes": 168064,
+      "input_xa": 4096,
+      "input_xb": 128,
+      "input_xn": 41,
+      "output_bytes": 54000,
+      "output_xa": 4096,
+      "output_xb": 752,
+      "output_xn": 13,
+      "geometry": "0x00f00140"
+    },
+    "FC": {
+      "input_bytes": 16777216,
+      "input_xa": 4096,
+      "input_xb": 0,
+      "input_xn": 4096
+    }
+  }
+}

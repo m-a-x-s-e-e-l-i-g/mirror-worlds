@@ -5,3 +5,7 @@
 *.jpg binary
 *.webp binary
 *.woff2 binary
+*.sh text eol=lf
+# Preserve whitespace that is part of patch context and compiler output.
+targets/70D.112/*.patch -whitespace
+release-manifests/**/elf-report.txt -whitespace

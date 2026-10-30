@@ -1,0 +1,230 @@
+{
+  "kind": "synthetic-arm-release-module",
+  "version": "0.3.0",
+  "hardware_tested": false,
+  "native_capture_verified": false,
+  "profile_runs_verified": 30,
+  "module_sha256": "fa2c5cc253a18a7b53dee3d3f10170e8ac0811f80fa38e1855c8bef17a022c12",
+  "runs": [
+    {
+      "cpu": "arm946-eos",
+      "profiles": [
+        {
+          "model": "EOSM",
+          "firmware": "2.0.2",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": true
+        },
+        {
+          "model": "5D2",
+          "firmware": "2.1.2",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "5D3",
+          "firmware": "1.1.3",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "5D3",
+          "firmware": "1.2.3",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "6D",
+          "firmware": "1.1.6",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "7D",
+          "firmware": "2.0.3",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "50D",
+          "firmware": "1.0.9",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "60D",
+          "firmware": "1.1.1",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "70D",
+          "firmware": "1.1.2",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "100D",
+          "firmware": "1.0.1",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "550D",
+          "firmware": "1.0.9",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "600D",
+          "firmware": "1.0.2",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "650D",
+          "firmware": "1.0.4",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "700D",
+          "firmware": "1.1.5",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "1100D",
+          "firmware": "1.0.5",
+          "height": 240,
+          "passed": true,
+          "native_backend_selected": false
+        }
+      ]
+    },
+    {
+      "cpu": "arm946-eos5",
+      "profiles": [
+        {
+          "model": "EOSM",
+          "firmware": "2.0.2",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": true
+        },
+        {
+          "model": "5D2",
+          "firmware": "2.1.2",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "5D3",
+          "firmware": "1.1.3",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "5D3",
+          "firmware": "1.2.3",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "6D",
+          "firmware": "1.1.6",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "7D",
+          "firmware": "2.0.3",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "50D",
+          "firmware": "1.0.9",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "60D",
+          "firmware": "1.1.1",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "70D",
+          "firmware": "1.1.2",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "100D",
+          "firmware": "1.0.1",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "550D",
+          "firmware": "1.0.9",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "600D",
+          "firmware": "1.0.2",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "650D",
+          "firmware": "1.0.4",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "700D",
+          "firmware": "1.1.5",
+          "height": 480,
+          "passed": true,
+          "native_backend_selected": false
+        },
+        {
+          "model": "1100D",
+          "firmware": "1.0.5",
+          "height": 240,
+          "passed": true,
+          "native_backend_selected": false
+        }
+      ]
+    }
+  ]
+}

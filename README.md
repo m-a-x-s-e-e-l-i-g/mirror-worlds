@@ -6,7 +6,7 @@ Mirror Worlds adds creative mirror effects to your camera. Make impossible build
 
 **Developed on and tested on the original Canon EOS M.** Made by **Max Seelig (MAXmade)**.
 
-[**Visit the website & try a mirror**](https://mirror-worlds.netlify.app/) · [**Download 0.2.0**](https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds/releases/download/v0.2.0/MIRROR-0.2.0-EOSM202.zip) · [Start shooting](#start-shooting) · [Camera compatibility](#will-it-work-with-my-camera)
+[**Visit the website & try a mirror**](https://mirror-worlds.netlify.app/) · [**Download 0.3.0**](https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds/releases/download/v0.3.0/MIRROR-0.3.0-EOSM202.zip) · [Start shooting](#start-shooting) · [Camera compatibility](#will-it-work-with-my-camera)
 
 ![Right · Half: the left half of a seaside scene reflected into the right half](docs/images/right-half.png)
 
@@ -51,11 +51,11 @@ Magic Lantern must already be installed. Mirror Worlds is an add-on module; the 
 
 ## Start shooting
 
-1. **Download and unzip [Mirror Worlds 0.2.0](https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds/releases/tag/v0.2.0).** You do not need to compile anything.
+1. **Download and unzip [Mirror Worlds 0.3.0](https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds/releases/tag/v0.3.0).** You do not need to compile anything.
 2. **Power the camera OFF.** Copy `mirror.mo` from the ZIP’s `ML/MODULES` folder into `ML/MODULES` on your card.
 3. Put the card back. In Magic Lantern’s **Modules** tab, enable **mirror.mo**, then **restart the camera**. Leave older glock and other MAXmade effects disabled.
 4. Use the tested setup above. Open **Shoot → Mirror Worlds** and its controls submenu. Turn **Live effect ON**.
-5. Choose **Mirror on**, **Width** and **Height**. Close the menu, compose your photo and press the **physical shutter**. Release it between photos.
+5. Choose **Mirror on**, **Width** and **Height**. Close the menu, wait for **ON - Ready**, half-press to focus, then fully press the **physical shutter**. Release it between photos.
 
 That’s it. Canon saves the mirrored CR2 and handles immediate review and Play/gallery. Capture rearms automatically for the next single shot. Your last settings, including ON/OFF, return after restart.
 
@@ -95,10 +95,14 @@ All **44 usable combinations** are in the same build. Change settings and shoot�
 
 ## The project
 
-**0.2.0 is the first public release of this standalone repository.** It contains the same module and ZIP accepted during development; the publication does not rebuild or change the camera binary.
+**0.3.0 is the current EOS M release**, promoted from the owner-accepted dev14 candidate. It preserves mirrored grain and fine detail by copying original RAW samples without averaging, covers the full visible RAW image, and retains the working half-shutter capture path and readable errors. [Read what changed](docs/release-0.3.0.md).
+
+The source also contains experimental LiveView-only profiles for other eligible Magic Lantern cameras. They are not hardware validated, and their saved photos remain original. Native mirrored CR2 capture remains EOS M 2.0.2 only. See the [camera status and portability guide](docs/portability.md) and [automated test pipeline](docs/emulation.md#automated-universal-baseline) for the evidence and remaining limitations.
+
+**0.2.0 is the first public release of this standalone repository.** Its module and ZIP remain available unchanged.
 
 The [Mirror Worlds website](https://mirror-worlds.netlify.app/) is live on Netlify, with an interactive mirror playground, examples, clear compatibility notes and installation instructions. See the [website guide](docs/website.md) for local previews and deployment settings. The site has no build dependencies and works as a static page.
 
-For people who want to look inside: [building the module](docs/development.md), [release notes](docs/release-0.2.0.md) and [checksums](downloads/SHA256SUMS).
+For people who want to look inside: [building the module](docs/development.md), [release notes](docs/release-0.3.0.md) and [checksums](downloads/0.3.0/SHA256SUMS).
 
 Mirror Worlds is free software under **GPL-2.0-or-later**. See [COPYING](COPYING) and [credits](NOTICE.md).
